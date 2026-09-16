@@ -1,0 +1,309 @@
+from io import BufferedIOBase
+import itertools
+import math
+import struct
+
+
+def split_into_ints(data: bytes, offset: int, bytes_to_read: int, int_size: int) -> list[int]:
+    base_data = bytearray(data[offset: offset + bytes_to_read])
+    if bytes_to_read % int_size > 0:
+        fill_pattern = 0xBAADF00D.to_bytes(4, byteorder='little')
+        trail = (fill_pattern * (int_size // 4))[bytes_to_read % int_size:]
+        base_data.extend(trail)
+
+    return [
+        int.from_bytes(
+            bytes=base_data[(i+0)*int_size:(i+1)*int_size],
+            byteorder='little',
+            signed=True,
+        )
+        for i in range(len(base_data) // int_size)
+    ]
+
+
+def bitscan_not(x: int) -> int:
+    x &= (1 << 64) - 1
+    return (~((x + 1) ^ x)).bit_length() - 2
+
+
+def correct_int(x: int) -> int:
+    x &= (1 << 32) - 1
+    if x >= 1 << 31:
+        x -= 1 << 32
+    return x
+
+
+def sub_141B66100(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:  # sub_141B66100
+    if a2 <= 4:
+        return
+    v3 = a3[0]
+    v5 = a3[1]
+    v7 = a3[2]
+    v8 = a3[3]
+    v4 = 2
+    v6 = a2 - 4
+    v9 = a1[0]
+    v10 = a1[2]
+    while v6 > 0:
+        v11 = a1[v4 - 1]
+        v12 = a1[v4 + 1]
+        v4 += 1
+        v14 = (v5 * v10) + (v7 * v11) + (v3 * v12) + (v8 * v9)
+        v10 = v12
+        v14 = correct_int(v14)
+        v9 = v11
+        a1[v4+1] += v14 >> 8
+        v6 -= 1
+
+
+def sub_141B66060(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:  # sub_141B66060
+    if a2 <= 4:
+        return
+    v3 = a1[2]
+    v4 = 2
+    v6 = a2 - 4
+    v5 = a3[0]
+    v7 = a3[1]
+    v8 = a3[2]
+    while v6 > 0:
+        v9 = a1[v4 + 1]
+        v10 = a1[v4 - 1]
+        v4 += 1
+        v11 = v7 * v3
+        v3 = v9
+        v14 = v11 + (v5 * v9) + (v8 * v10)
+        v14 = correct_int(v14)
+        a1[v4 + 1] += v14 >> 8
+        v6 -= 1
+
+
+def sub_141B66200(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:  # sub_141B66200
+    if a2 <= 4:
+        return
+    v2 = 4
+    v3 = a2 - 4
+    while v3 > 0:
+        v4 = a1[v2 - 1]
+        a1[v2] += 2 * v4 - a1[v2 - 2]
+        v2 += 1
+        v3 -= 1
+
+
+def sub_141B66000(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:  # sub_141B66000
+    if a2 <= 4:
+        return
+    v3 = a3[0]
+    v4 = a3[1]
+    v5 = 4
+    v6 = a2 - 4
+    while v6 > 0:
+        v7 = a1[v5 - 2]
+        v8 = a1[v5 - 1]
+        v14 = (v3 * v8) + (v4 * v7)
+        v14 = correct_int(v14)
+        a1[v5] += v14 >> 8
+        v5 += 1
+        v6 -= 1
+
+
+def sub_141B661D0(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:  # sub_141B661D0
+    if a2 <= 4:
+        return
+    v3 = 4
+    v4 = a2 - 4
+    while v4 > 0:
+        a1[v3] += a1[v3 - 1]
+        v3 += 1
+        v4 -= 1
+
+
+def sub_141B65FB0(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:  # sub_141B65FB0
+    if a2 <= 4:
+        return
+    v3 = a3[0]
+    v4 = 4
+    v5 = a2 - 4
+    while v5 > 0:
+        v6 = a1[v4 - 1]
+        a1[v4] += (v3 * v6) >> 8
+        v4 += 1
+        v5 -= 1
+
+
+def process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
+    v5 = ablk_values[2]
+    (head, v10, _, v35, v36, v40, v41) = split_into_ints(data_chunk, 0, 0x1C, 4)
+    v6 = min(4, v5)
+    result = split_into_ints(
+        data=data_chunk, offset=0x1C,
+        bytes_to_read=4*v6, int_size=4,
+    )
+    result += [0] * (v5-v6)
+    if v5 <= 4:
+        return result
+
+    v11 = v10 - 0x24
+    a2 = split_into_ints(
+        data=data_chunk, offset=0x1C + 4 * v6,
+        bytes_to_read=v11, int_size=8,
+    )
+
+    v13 = 0
+    v14 = 0
+    v15 = 0
+    v16 = v5 - 4
+    v21 = data_chunk[0x0B]
+    v22 = 4
+    if v21 != 0:
+        while v16 != 0:
+            if v15 == 0:
+                v14 = a2[v13]
+                v13 += 1
+                v15 = 64
+            v23 = 0
+            while True:
+                while v14 == -1:
+                    v14 = a2[v13]
+                    v23 += v15
+                    v13 += 1
+                    v15 = 64
+                v24 = bitscan_not(v14)
+                v23 += v24
+                if v24 < v15:
+                    break
+                v14 = a2[v13]
+                v13 += 1
+                v15 = 64
+            v25 = v14 >> v24 >> 1
+            v26 = -1 - v24 + v15
+            if v26 == 0:
+                v14 = a2[v13]
+                v13 += 1
+                v26 = 64
+            v27 = v25
+            v28 = v26
+            if v26 < v21:
+                v30 = a2[v13]
+                v13 += 1
+                v31 = v25 & ((1 << v26) - 1)
+                v32 = 1 << (v21 - v26)
+                v14 = v30 >> (v21 - v26)
+                v15 = 64 - (v21 - v26)
+                v29 = v31 | ((v30 & (v32 - 1)) << v28)
+            else:
+                v15 = v26 - v21
+                v14 = v25 >> v21
+                v29 = v27 & ((1 << v21) - 1)
+            v33 = v29 | (v23 << v21)
+            v34 = -(v33 >> 1)
+            if v33 & 1 == 0:
+                v34 = v33 >> 1
+            result[v22] = v34
+            v22 += 1
+            v16 -= 1
+    else:
+        while v16 != 0:
+            if v15 == 0:
+                v14 = a2[v13]
+                v15 = 64
+                v13 += 1
+            v23 = 0
+            while True:
+                while v14 == -1:
+                    v14 = a2[v13]
+                    v23 += v15
+                    v13 += 1
+                    v15 = 64
+                v24 = bitscan_not(v14)
+                v23 += v24
+                if v24 < v15:
+                    break
+                v14 = a2[v13]
+                v15 = 64
+                v13 += 1
+            v14 = v14 >> v24 >> 1
+            v15 += -1 - v24
+            v34 = -(v23 >> 1)
+            if (v23 & 1) == 0:
+                v34 = v23 >> 1
+            result[v22] = v34
+            v22 += 1
+            v16 -= 1
+
+    if v41 != 0:
+        sub_141B66100(result, v5, (v35, v36, v40, v41))
+    elif v40 != 0:
+        sub_141B66060(result, v5, (v35, v36, v40, v41))
+    elif v36 != 0:
+        if v35 == 0x200 and v36 == -0x100:
+            sub_141B66200(result, v5, (v35, v36, v40, v41))
+        else:
+            sub_141B66000(result, v5, (v35, v36, v40, v41))
+    else:
+        if v35 == 0x100:
+            sub_141B661D0(result, v5, (v35, v36, v40, v41))
+        else:
+            sub_141B65FB0(result, v5, (v35, v36, v40, v41))
+
+    return result
+
+
+def read_int(o, s: int = 4, signed: bool = False) -> int:
+    return int.from_bytes(o.read(s), byteorder='little', signed=signed)
+
+
+def read_sflc_stream(data: BufferedIOBase) -> bytes:
+    assert data.read(0x04) == b'SFLC'
+    read_int(data, 2)  # ¿? probably always 0x00
+    read_int(data, 2)  # ¿? probably always 0x01
+    read_int(data, 2)  # ¿? probably always 0x18
+
+    num_channels = read_int(data, 2)
+    sample_rate = read_int(data, 4)
+    data_size = read_int(data, 4)
+
+    read_int(data, 4)  # ¿? probably always 0x0400
+
+    accum_channel_data = [list[float]() for _ in range(num_channels)]
+    next_ablk_index = data.tell()
+    while (head := data.read(0x04)) == b'ABLK':
+
+        ablk_values = [
+            int.from_bytes(head, byteorder='little'),
+            read_int(data, 4),
+            read_int(data, 4),
+        ]
+        ablk_size = ablk_values[1]
+        next_ablk_index += ablk_size
+        next_ablk_index += 8
+
+        for channel_index in range(num_channels):
+            assert (head := data.read(0x04)) == b'DATA'
+            data_chunk = head + data.read(0x1C)
+            data_size = int.from_bytes(
+                data_chunk[0x04:0x08],
+                byteorder='little',
+            )
+            data_chunk += data.read(data_size - 0x18)
+            processed_ints = process_data(ablk_values, data_chunk)
+            processed_floats = [
+                v * (2**-23)
+                for v in processed_ints
+            ]
+
+            accum_channel_data[channel_index].extend(processed_floats)
+
+    # combined = list(itertools.chain(*zip(*accum_channel_data)))
+    combined = accum_channel_data[1]
+    packed_data = struct.pack(
+        "<{}f".format(len(combined)),
+        *combined,
+    )
+    return packed_data
+
+
+if __name__ == '__main__':
+    # p = r'C:\Users\USER\Projects\splice\samples\INSTRUMENT_Common_IR_04B43E'
+    p = r'C:\Users\USER\Projects\splice\samples\LABSOPIA_01_14FC45'
+    result_data = read_sflc_stream(open(file=p + '.sflc', mode='rb'))
+    open(p + '.pcm', 'wb').write(result_data)

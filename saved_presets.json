@@ -1,0 +1,7248 @@
+{
+	"LABS_Bass_Synth_Bend.zmulti": {
+		"name": "LABS_Bass_Synth_Bend",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Bass_Synth_Bend",
+			"SVNRevNumber": "24306",
+			"patchGainL": 1.01064,
+			"patchGainR": 1.01064,
+			"micId": 1,
+			"articId": "Long",
+			"articIdxs": [
+				-1,
+				19906
+			],
+			"handOffset": 12,
+			"useInstrReleaseVel": true,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Bass Synth Bend/RR1",
+					"groupId": 3,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.349999176,
+										"curve": 1.355700000005423
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.7500004269999999,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 1.500006348,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Bass Synth Bend/RR1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						},
+						{
+							"target": "env[0].point[3].time",
+							"expr": "k_ep2drt ((1 - i_rel) * k_drt2ep (x))"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_rel",
+							"value": 0
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.7500004269999999
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.5039370078740157
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.349999176
+						},
+						{
+							"source": "i_envrel",
+							"value": 1.500006348
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375268,
+					"groupId": 3,
+					"rootKey": 48,
+					"keyFrom": 24,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 44.19827083333333,
+					"fadeOutTime": 4.181249999999999,
+					"loopZone": {
+						"fadeInTime": 4.181249999999999,
+						"sampleOffset": 2.202687500000001,
+						"priority": 40
+					},
+					"tempo": 70.83781706379708
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.10798
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_Locusts.zmulti": {
+		"name": "LABS_Locusts",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Locusts",
+			"SVNRevNumber": "24601",
+			"patchGainL": 0.5,
+			"patchGainR": 0.5,
+			"micId": 1,
+			"articId": "Long",
+			"articIdxs": [
+				-1,
+				19906
+			],
+			"handOffset": 12,
+			"useInstrReleaseVel": true,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Locusts/RR1",
+					"groupId": 3,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": 1.355700000005423
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 2,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Locusts/RR1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 0.5826771653543307
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.75
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.3070866141732284
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.75
+						},
+						{
+							"source": "i_envrel",
+							"value": 2
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375306,
+					"groupId": 3,
+					"rootKey": 67,
+					"keyFrom": 24,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 13.96264583333333,
+					"fadeOutTime": 2.427083333333333,
+					"loopZone": {
+						"fadeInTime": 2.427083333333333,
+						"sampleOffset": 0.5321666666666669,
+						"priority": 40
+					},
+					"tempo": 98.55261539777679
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.024434
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_OPIA.patches.zconfig": {
+		"plugin": "Labs",
+		"name": "Opia",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"artics": [
+			{
+				"articId": "Long",
+				"display": "LONG",
+				"category": "long",
+				"icon": "Long"
+			},
+			{
+				"articId": "Short",
+				"display": "SHORT",
+				"category": "short",
+				"icon": "Short"
+			}
+		],
+		"controls": [
+			{
+				"controlId": "REVERB",
+				"sliderUrl": "/Typhon/DynamicArea/EffectsLayout/expressionControls/%controlId%/dial",
+				"buttonUrl": "/Typhon/expressionDialPopOver/mainPopup/%controlId%",
+				"label": "REVERB",
+				"icon": "reverb",
+				"info": "Reverb",
+				"paramId": "i_reverb",
+				"scriptId": "i_reverb",
+				"odest": true,
+				"min": 0.0,
+				"max": 1.0,
+				"skew": 1.0,
+				"def": 0.0,
+				"init": 0.0,
+				"reset": true,
+				"enabled": true
+			},
+			{
+				"controlId": "ATTACK",
+				"sliderUrl": "/Typhon/DynamicArea/EffectsLayout/expressionControls/%controlId%/dial",
+				"buttonUrl": "/Typhon/expressionDialPopOver/mainPopup/%controlId%",
+				"label": "ATTACK",
+				"icon": "ADSR-attack",
+				"info": "ADSR-attack",
+				"paramId": "i_envatt",
+				"scriptId": "i_envatt",
+				"odest": true,
+				"min": 0,
+				"max": 15,
+				"skew": 0.344010174,
+				"def": 3,
+				"init": 0.5,
+				"reset": true,
+				"units": "time",
+				"enabled": true
+			},
+			{
+				"controlId": "DECAY",
+				"sliderUrl": "/Typhon/DynamicArea/EffectsLayout/expressionControls/%controlId%/dial",
+				"buttonUrl": "/Typhon/expressionDialPopOver/mainPopup/%controlId%",
+				"label": "DECAY",
+				"icon": "ADSR-decay",
+				"info": "ADSR-decay",
+				"paramId": "i_envdec",
+				"scriptId": "i_envdec",
+				"odest": true,
+				"min": 0,
+				"max": 25,
+				"skew": 0.274434537,
+				"def": 5,
+				"init": 0.5,
+				"reset": true,
+				"units": "time",
+				"enabled": true
+			},
+			{
+				"controlId": "SUSTAIN",
+				"sliderUrl": "/Typhon/DynamicArea/EffectsLayout/expressionControls/%controlId%/dial",
+				"buttonUrl": "/Typhon/expressionDialPopOver/mainPopup/%controlId%",
+				"label": "SUSTAIN",
+				"icon": "ADSR-sustain",
+				"info": "ADSR-sustain",
+				"paramId": "i_envsus",
+				"scriptId": "i_envsus",
+				"odest": true,
+				"min": 0,
+				"max": 1,
+				"skew": 1,
+				"def": 1,
+				"init": 1,
+				"reset": true,
+				"units": "gain",
+				"enabled": true
+			},
+			{
+				"controlId": "RELEASE",
+				"sliderUrl": "/Typhon/DynamicArea/EffectsLayout/expressionControls/%controlId%/dial",
+				"buttonUrl": "/Typhon/expressionDialPopOver/mainPopup/%controlId%",
+				"label": "RELEASE",
+				"icon": "ADSR-release",
+				"info": "ADSR-release",
+				"paramId": "i_envrel",
+				"scriptId": "i_envrel",
+				"odest": true,
+				"min": 0,
+				"max": 25,
+				"skew": 0.274434537,
+				"def": 3,
+				"init": 0.5,
+				"reset": true,
+				"units": "time",
+				"enabled": true
+			},
+			{
+				"controlId": "VARIATION",
+				"sliderUrl": "/Typhon/DynamicArea/EffectsLayout/expressionControls/%controlId%/dial",
+				"buttonUrl": "/Typhon/expressionDialPopOver/mainPopup/%controlId%",
+				"label": "VARIATION",
+				"icon": "variation",
+				"info": "Variation",
+				"paramId": "i_variation",
+				"scriptId": "i_var",
+				"odest": true,
+				"min": 0.0,
+				"max": 1.0,
+				"skew": 1.0,
+				"def": 0.0,
+				"init": 0.0,
+				"reset": true,
+				"enabled": true
+			}
+		]
+	},
+	"LABS_Percussion_Kit.zmulti": {
+		"name": "LABS_Percussion_Kit",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Percussion_Kit",
+			"SVNRevNumber": "24615",
+			"patchGainL": 1.412937,
+			"patchGainR": 1.412937,
+			"micId": 1,
+			"articId": "Short",
+			"articIdxs": [
+				-1,
+				14814
+			],
+			"handOffset": 12,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Percussion Kit/rr1",
+					"groupId": 3,
+					"gain": 1.000002,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.025,
+										"curve": 3.882352941192
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.7500004269999999,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 0.25,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 14814,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 49.70000076293945
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 4
+					}
+				},
+				{
+					"name": "/Percussion Kit/rr2",
+					"groupId": 4,
+					"gain": 1.000002,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.025,
+										"curve": 3.882352941192
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.7500004269999999,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 0.25,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 1,
+						"articIdx": 14814,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 49.70000076293945
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 4,
+						"rrcount": 4
+					}
+				},
+				{
+					"name": "/Percussion Kit/rr3",
+					"groupId": 5,
+					"gain": 1.000002,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.025,
+										"curve": 3.882352941192
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.7500004269999999,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 0.25,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 2,
+						"articIdx": 14814,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 49.70000076293945
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 5,
+						"rrcount": 4
+					}
+				},
+				{
+					"name": "/Percussion Kit/rr3",
+					"groupId": 6,
+					"gain": 1.000002,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.025,
+										"curve": 3.882352941192
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.7500004269999999,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 0.25,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 3,
+						"articIdx": 14814,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 49.70000076293945
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 6,
+						"rrcount": 4
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Percussion Kit/rr1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * cubed (luti (vel))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.243243,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.7500004269999999
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.2440944881889764
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.025
+						},
+						{
+							"source": "i_envrel",
+							"value": 0.25
+						}
+					]
+				},
+				{
+					"zoneModId": 4,
+					"name": "/Percussion Kit/rr2",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * cubed (luti (vel))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.243243,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.7500004269999999
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.2440944881889764
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.025
+						},
+						{
+							"source": "i_envrel",
+							"value": 0.25
+						}
+					]
+				},
+				{
+					"zoneModId": 5,
+					"name": "/Percussion Kit/rr3",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * cubed (luti (vel))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.243243,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.7500004269999999
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.2440944881889764
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.025
+						},
+						{
+							"source": "i_envrel",
+							"value": 0.25
+						}
+					]
+				},
+				{
+					"zoneModId": 6,
+					"name": "/Percussion Kit/rr3",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * cubed (luti (vel))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.243243,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.7500004269999999
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.2440944881889764
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.025
+						},
+						{
+							"source": "i_envrel",
+							"value": 0.25
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375278,
+					"startOffsetMax": 0.003125,
+					"groupId": 3,
+					"rootKey": 50,
+					"keyFrom": 50,
+					"keyTo": 50,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 533.3333333333333
+				},
+				{
+					"sampleFileId": 1375345,
+					"startOffsetMax": 0.003125,
+					"groupId": 3,
+					"rootKey": 59,
+					"keyFrom": 59,
+					"keyTo": 59,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.781801563596,
+					"tempo": 340.9090909090909
+				},
+				{
+					"sampleFileId": 1375287,
+					"startOffsetMax": 0.003125,
+					"groupId": 3,
+					"rootKey": 60,
+					"keyFrom": 60,
+					"keyTo": 60,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 375.3910323253389
+				},
+				{
+					"sampleFileId": 1375290,
+					"startOffsetMax": 0.003125,
+					"groupId": 3,
+					"rootKey": 62,
+					"keyFrom": 62,
+					"keyTo": 62,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.781801563596,
+					"tempo": 483.8709677419355
+				},
+				{
+					"sampleFileId": 1375241,
+					"startOffsetMax": 0.003125,
+					"groupId": 3,
+					"rootKey": 64,
+					"keyFrom": 64,
+					"keyTo": 64,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.781801563596,
+					"tempo": 472.5184577522559
+				},
+				{
+					"sampleFileId": 1375249,
+					"startOffsetMax": 0.003125,
+					"groupId": 3,
+					"rootKey": 65,
+					"keyFrom": 65,
+					"keyTo": 65,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 0.561232122462,
+					"tempo": 290.3225806451613
+				},
+				{
+					"sampleFileId": 1375252,
+					"startOffsetMax": 0.003125,
+					"groupId": 3,
+					"rootKey": 67,
+					"keyFrom": 67,
+					"keyTo": 67,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 378.5488958990536
+				},
+				{
+					"sampleFileId": 1375266,
+					"startOffsetMax": 0.003125,
+					"groupId": 3,
+					"rootKey": 52,
+					"keyFrom": 52,
+					"keyTo": 52,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 525.1162366669705
+				},
+				{
+					"sampleFileId": 1375298,
+					"startOffsetMax": 0.003125,
+					"groupId": 3,
+					"rootKey": 57,
+					"keyFrom": 57,
+					"keyTo": 57,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 625
+				},
+				{
+					"sampleFileId": 1375369,
+					"startOffsetMax": 0.003125,
+					"groupId": 3,
+					"rootKey": 53,
+					"keyFrom": 53,
+					"keyTo": 53,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 0.6299622599220001,
+					"tempo": 269.4610778443114
+				},
+				{
+					"sampleFileId": 1375373,
+					"startOffsetMax": 0.003125,
+					"groupId": 3,
+					"rootKey": 55,
+					"keyFrom": 55,
+					"keyTo": 55,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 0.6299622599220001,
+					"tempo": 421.869850221555
+				},
+				{
+					"sampleFileId": 1375265,
+					"startOffsetMax": 0.003125,
+					"groupId": 4,
+					"rootKey": 50,
+					"keyFrom": 50,
+					"keyTo": 50,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 495.5264969029594
+				},
+				{
+					"sampleFileId": 1375314,
+					"startOffsetMax": 0.003125,
+					"groupId": 4,
+					"rootKey": 48,
+					"keyFrom": 48,
+					"keyTo": 48,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174809349606,
+					"tempo": 352.833078101072
+				},
+				{
+					"sampleFileId": 1375321,
+					"startOffsetMax": 0.003125,
+					"groupId": 4,
+					"rootKey": 59,
+					"keyFrom": 59,
+					"keyTo": 59,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.781801563596,
+					"tempo": 358.2089552238807
+				},
+				{
+					"sampleFileId": 1375269,
+					"startOffsetMax": 0.003125,
+					"groupId": 4,
+					"rootKey": 60,
+					"keyFrom": 60,
+					"keyTo": 60,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 385.4389721627409
+				},
+				{
+					"sampleFileId": 1375271,
+					"startOffsetMax": 0.003125,
+					"groupId": 4,
+					"rootKey": 62,
+					"keyFrom": 62,
+					"keyTo": 62,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.781801563596,
+					"tempo": 504.3782837127846
+				},
+				{
+					"sampleFileId": 1375274,
+					"startOffsetMax": 0.003125,
+					"groupId": 4,
+					"rootKey": 64,
+					"keyFrom": 64,
+					"keyTo": 64,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.781801563596,
+					"tempo": 523.1607629427792
+				},
+				{
+					"sampleFileId": 1375379,
+					"startOffsetMax": 0.003125,
+					"groupId": 4,
+					"rootKey": 65,
+					"keyFrom": 65,
+					"keyTo": 65,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 0.561232122462,
+					"tempo": 358.9232303090728
+				},
+				{
+					"sampleFileId": 1375382,
+					"startOffsetMax": 0.003125,
+					"groupId": 4,
+					"rootKey": 67,
+					"keyFrom": 67,
+					"keyTo": 67,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 352.2504892367906
+				},
+				{
+					"sampleFileId": 1375239,
+					"startOffsetMax": 0.003125,
+					"groupId": 4,
+					"rootKey": 52,
+					"keyFrom": 52,
+					"keyTo": 52,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 514.1021063905748
+				},
+				{
+					"sampleFileId": 1375279,
+					"startOffsetMax": 0.003125,
+					"groupId": 4,
+					"rootKey": 57,
+					"keyFrom": 57,
+					"keyTo": 57,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 655.6257469694383
+				},
+				{
+					"sampleFileId": 1375352,
+					"startOffsetMax": 0.003125,
+					"groupId": 4,
+					"rootKey": 53,
+					"keyFrom": 53,
+					"keyTo": 53,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 0.6299622599220001,
+					"tempo": 332.1799307958477
+				},
+				{
+					"sampleFileId": 1375355,
+					"startOffsetMax": 0.003125,
+					"groupId": 4,
+					"rootKey": 55,
+					"keyFrom": 55,
+					"keyTo": 55,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 0.6299622599220001,
+					"tempo": 388.2317258113437
+				},
+				{
+					"sampleFileId": 1375238,
+					"startOffsetMax": 0.003125,
+					"groupId": 5,
+					"rootKey": 50,
+					"keyFrom": 50,
+					"keyTo": 50,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 453.1864673485445
+				},
+				{
+					"sampleFileId": 1375295,
+					"startOffsetMax": 0.003125,
+					"groupId": 5,
+					"rootKey": 48,
+					"keyFrom": 48,
+					"keyTo": 48,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174809349606,
+					"tempo": 482.3312677943393
+				},
+				{
+					"sampleFileId": 1375300,
+					"startOffsetMax": 0.003125,
+					"groupId": 5,
+					"rootKey": 59,
+					"keyFrom": 59,
+					"keyTo": 59,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.781801563596,
+					"tempo": 318.3023872679045
+				},
+				{
+					"sampleFileId": 1375250,
+					"startOffsetMax": 0.003125,
+					"groupId": 5,
+					"rootKey": 60,
+					"keyFrom": 60,
+					"keyTo": 60,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 419.5804195804196
+				},
+				{
+					"sampleFileId": 1375255,
+					"startOffsetMax": 0.003125,
+					"groupId": 5,
+					"rootKey": 62,
+					"keyFrom": 62,
+					"keyTo": 62,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.781801563596,
+					"tempo": 432.3026118282798
+				},
+				{
+					"sampleFileId": 1375261,
+					"startOffsetMax": 0.003125,
+					"groupId": 5,
+					"rootKey": 64,
+					"keyFrom": 64,
+					"keyTo": 64,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.781801563596,
+					"tempo": 442.2604422604423
+				},
+				{
+					"sampleFileId": 1375358,
+					"startOffsetMax": 0.003125,
+					"groupId": 5,
+					"rootKey": 65,
+					"keyFrom": 65,
+					"keyTo": 65,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 0.561232122462,
+					"tempo": 298.0132450331126
+				},
+				{
+					"sampleFileId": 1375360,
+					"startOffsetMax": 0.003125,
+					"groupId": 5,
+					"rootKey": 67,
+					"keyFrom": 67,
+					"keyTo": 67,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 408.6265607264473
+				},
+				{
+					"sampleFileId": 1375372,
+					"startOffsetMax": 0.003125,
+					"groupId": 5,
+					"rootKey": 52,
+					"keyFrom": 52,
+					"keyTo": 52,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 504.2458198371706
+				},
+				{
+					"sampleFileId": 1375309,
+					"startOffsetMax": 0.003125,
+					"groupId": 5,
+					"rootKey": 57,
+					"keyFrom": 57,
+					"keyTo": 57,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 868.0581719538844
+				},
+				{
+					"sampleFileId": 1375331,
+					"startOffsetMax": 0.003125,
+					"groupId": 5,
+					"rootKey": 53,
+					"keyFrom": 53,
+					"keyTo": 53,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 0.6299622599220001,
+					"tempo": 395.8218801539307
+				},
+				{
+					"sampleFileId": 1375334,
+					"startOffsetMax": 0.003125,
+					"groupId": 5,
+					"rootKey": 55,
+					"keyFrom": 55,
+					"keyTo": 55,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 0.6299622599220001,
+					"tempo": 389.4523326572008
+				},
+				{
+					"sampleFileId": 1375371,
+					"startOffsetMax": 0.003125,
+					"groupId": 6,
+					"rootKey": 50,
+					"keyFrom": 50,
+					"keyTo": 50,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 618.0589087397393
+				},
+				{
+					"sampleFileId": 1375276,
+					"startOffsetMax": 0.003125,
+					"groupId": 6,
+					"rootKey": 48,
+					"keyFrom": 48,
+					"keyTo": 48,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174809349606,
+					"tempo": 368.8524590163934
+				},
+				{
+					"sampleFileId": 1375281,
+					"startOffsetMax": 0.003125,
+					"groupId": 6,
+					"rootKey": 59,
+					"keyFrom": 59,
+					"keyTo": 59,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.781801563596,
+					"tempo": 479.3608521970705
+				},
+				{
+					"sampleFileId": 1375381,
+					"startOffsetMax": 0.003125,
+					"groupId": 6,
+					"rootKey": 60,
+					"keyFrom": 60,
+					"keyTo": 60,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 316.3444639718805
+				},
+				{
+					"sampleFileId": 1375384,
+					"startOffsetMax": 0.003125,
+					"groupId": 6,
+					"rootKey": 62,
+					"keyFrom": 62,
+					"keyTo": 62,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.781801563596,
+					"tempo": 555.5555555555555
+				},
+				{
+					"sampleFileId": 1375385,
+					"startOffsetMax": 0.003125,
+					"groupId": 6,
+					"rootKey": 64,
+					"keyFrom": 64,
+					"keyTo": 64,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.781801563596,
+					"tempo": 538.9221556886228
+				},
+				{
+					"sampleFileId": 1375341,
+					"startOffsetMax": 0.003125,
+					"groupId": 6,
+					"rootKey": 65,
+					"keyFrom": 65,
+					"keyTo": 65,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 0.561232122462,
+					"tempo": 262.7737226277372
+				},
+				{
+					"sampleFileId": 1375343,
+					"startOffsetMax": 0.003125,
+					"groupId": 6,
+					"rootKey": 67,
+					"keyFrom": 67,
+					"keyTo": 67,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 394.7368421052632
+				},
+				{
+					"sampleFileId": 1375354,
+					"startOffsetMax": 0.003125,
+					"groupId": 6,
+					"rootKey": 52,
+					"keyFrom": 52,
+					"keyTo": 52,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 703.6403615929636
+				},
+				{
+					"sampleFileId": 1375291,
+					"startOffsetMax": 0.003125,
+					"groupId": 6,
+					"rootKey": 57,
+					"keyFrom": 57,
+					"keyTo": 57,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 700.3891050583658
+				},
+				{
+					"sampleFileId": 1375307,
+					"startOffsetMax": 0.003125,
+					"groupId": 6,
+					"rootKey": 53,
+					"keyFrom": 53,
+					"keyTo": 53,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 0.6299622599220001,
+					"tempo": 334.5724907063197
+				},
+				{
+					"sampleFileId": 1375310,
+					"startOffsetMax": 0.003125,
+					"groupId": 6,
+					"rootKey": 55,
+					"keyFrom": 55,
+					"keyTo": 55,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 0.6299622599220001,
+					"tempo": 418.3614177803603
+				},
+				{
+					"sampleFileId": 1375295,
+					"startOffsetMax": 0.003125,
+					"groupId": 3,
+					"rootKey": 48,
+					"keyFrom": 48,
+					"keyTo": 48,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174809349606,
+					"tempo": 482.3312677943393
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.012271
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_Piano_Granular.zmulti": {
+		"name": "LABS_Piano_Granular",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Piano_Granular",
+			"SVNRevNumber": "24601",
+			"patchGainL": 0.956531,
+			"patchGainR": 0.956531,
+			"micId": 1,
+			"articId": "Long",
+			"articIdxs": [
+				-1,
+				19906
+			],
+			"handOffset": 12,
+			"useInstrReleaseVel": true,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Piano Granular/rr1 sus DRY",
+					"groupId": 3,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.5,
+										"curve": 3.882352941192
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 3,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				},
+				{
+					"name": "/Piano Granular/rr1 sus FX",
+					"groupId": 4,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.5,
+										"curve": 3.882352941192
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 3,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							}
+						],
+						"zoneModId": 4,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Piano Granular/rr1 sus DRY",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (luti (i_var), 20))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 1,
+								"points": [
+									{
+										"level": 0.932432,
+										"time": 0.230315,
+										"curve": -0.270272
+									},
+									{
+										"level": 0.878378,
+										"time": 0.17126,
+										"curve": 4.281088
+									},
+									{
+										"level": 0.351351,
+										"time": 0.218504,
+										"curve": 1.308112
+									},
+									{
+										"level": 0,
+										"time": 0.2736219999999999,
+										"curve": -2.929728
+									},
+									{
+										"level": 0,
+										"time": 0.106299
+									}
+								]
+							}
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.75
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.3385826771653543
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.5
+						},
+						{
+							"source": "i_envrel",
+							"value": 3
+						},
+						{
+							"source": "i_var",
+							"value": 0.4015748031496063
+						}
+					]
+				},
+				{
+					"zoneModId": 4,
+					"name": "/Piano Granular/rr1 sus FX",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (luti (i_var), 20))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0,
+								"points": [
+									{
+										"level": 0.121622,
+										"time": 0.257874
+									},
+									{
+										"level": 0.527027,
+										"time": 0.269685,
+										"curve": -1.621616
+									},
+									{
+										"level": 1,
+										"time": 0.472441,
+										"curve": 2.432432
+									}
+								]
+							}
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.75
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.3385826771653543
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.5
+						},
+						{
+							"source": "i_envrel",
+							"value": 3
+						},
+						{
+							"source": "i_var",
+							"value": 0.4015748031496063
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375357,
+					"groupId": 3,
+					"rootKey": 63,
+					"keyFrom": 24,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 7.494583333333333,
+					"fadeOutTime": 1.7375,
+					"loopZone": {
+						"fadeInTime": 1.7375,
+						"sampleOffset": 0.4551041666666664,
+						"priority": 40
+					},
+					"tempo": 96
+				},
+				{
+					"sampleFileId": 1375305,
+					"groupId": 4,
+					"rootKey": 63,
+					"keyFrom": 24,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 7.494583333333333,
+					"fadeOutTime": 1.7375,
+					"loopZone": {
+						"fadeInTime": 1.7375,
+						"sampleOffset": 0.4551041666666664,
+						"priority": 40
+					},
+					"tempo": 80
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.03275
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_Piano_Pad.zmulti": {
+		"name": "LABS_Piano_Pad",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Piano_Pad",
+			"SVNRevNumber": "27186",
+			"patchGainL": 0.333351,
+			"patchGainR": 0.333351,
+			"micId": 1,
+			"articId": "Long",
+			"articIdxs": [
+				-1,
+				19906
+			],
+			"handOffset": 12,
+			"useInstrReleaseVel": true,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Piano Pad/rr1 sus DRY",
+					"groupId": 3,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -1.884194117654596
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 3,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				},
+				{
+					"name": "/Piano Pad/rr1 sus FX",
+					"groupId": 4,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -1.884194117654596
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 3,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							}
+						],
+						"zoneModId": 4,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Piano Pad/rr1 sus DRY",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (luti (i_var), 20))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 1,
+								"points": [
+									{
+										"level": 0.932432,
+										"time": 0.230315,
+										"curve": -0.270272
+									},
+									{
+										"level": 0.878378,
+										"time": 0.17126,
+										"curve": 4.281088
+									},
+									{
+										"level": 0.324324,
+										"time": 0.161417,
+										"curve": 1.308112
+									},
+									{
+										"level": 0,
+										"time": 0.3307089999999999,
+										"curve": -5.632432
+									},
+									{
+										"level": 0,
+										"time": 0.106299
+									}
+								]
+							}
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.75
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.3070866141732284
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.75
+						},
+						{
+							"source": "i_envrel",
+							"value": 3
+						},
+						{
+							"source": "i_var",
+							"value": 1
+						}
+					]
+				},
+				{
+					"zoneModId": 4,
+					"name": "/Piano Pad/rr1 sus FX",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (luti (i_var), 20))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0,
+								"points": [
+									{
+										"level": 0.121622,
+										"time": 0.257874
+									},
+									{
+										"level": 0.527027,
+										"time": 0.269685,
+										"curve": -1.621616
+									},
+									{
+										"level": 1,
+										"time": 0.472441,
+										"curve": 2.432432
+									}
+								]
+							}
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.75
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.3070866141732284
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.75
+						},
+						{
+							"source": "i_envrel",
+							"value": 3
+						},
+						{
+							"source": "i_var",
+							"value": 1
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375292,
+					"groupId": 4,
+					"rootKey": 58,
+					"keyFrom": 24,
+					"keyTo": 107,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 11.9353125,
+					"fadeOutTime": 1.81875,
+					"loopZone": {
+						"fadeInTime": 1.81875,
+						"sampleOffset": 2.495833333333334,
+						"priority": 40
+					},
+					"tempo": 75.96739732531455
+				},
+				{
+					"sampleFileId": 1375370,
+					"sampleOffset": 0.07604166666666666,
+					"groupId": 3,
+					"rootKey": 59,
+					"keyFrom": 24,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 5.97225,
+					"fadeOutTime": 1.127083333333333,
+					"loopZone": {
+						"fadeInTime": 1.127083333333333,
+						"sampleOffset": 0.9064166666666669,
+						"priority": 40
+					},
+					"tempo": 133.785478701166
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.024434
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_Pluck_Synth.zmulti": {
+		"name": "LABS_Pluck_Synth",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Pluck_Synth",
+			"SVNRevNumber": "24616",
+			"patchGainL": 0.983301,
+			"patchGainR": 0.983301,
+			"micId": 1,
+			"articId": "Short",
+			"articIdxs": [
+				-1,
+				14814
+			],
+			"handOffset": 12,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Synth Pluck/rr1",
+					"groupId": 3,
+					"gain": 1.000002,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.07500032000000001,
+										"curve": 3.882352941192
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.7500004269999999,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 5,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 14814,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 49.70000076293945
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Synth Pluck/rr1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * cubed (luti (vel))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.27027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.7500004269999999
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.5039370078740157
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.07500032000000001
+						},
+						{
+							"source": "i_envrel",
+							"value": 5
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375235,
+					"groupId": 3,
+					"rootKey": 69,
+					"keyFrom": 68,
+					"keyTo": 69,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 70.1549254603917
+				},
+				{
+					"sampleFileId": 1375275,
+					"groupId": 3,
+					"rootKey": 71,
+					"keyFrom": 70,
+					"keyTo": 71,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 77.93051196016884
+				},
+				{
+					"sampleFileId": 1375363,
+					"groupId": 3,
+					"rootKey": 60,
+					"keyFrom": 24,
+					"keyTo": 60,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 70.1549254603917
+				},
+				{
+					"sampleFileId": 1375303,
+					"groupId": 3,
+					"rootKey": 72,
+					"keyFrom": 72,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 70.1549254603917
+				},
+				{
+					"sampleFileId": 1375254,
+					"groupId": 3,
+					"rootKey": 62,
+					"keyFrom": 61,
+					"keyTo": 62,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 70.1549254603917
+				},
+				{
+					"sampleFileId": 1375288,
+					"groupId": 3,
+					"rootKey": 64,
+					"keyFrom": 63,
+					"keyTo": 64,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 77.93051196016884
+				},
+				{
+					"sampleFileId": 1375328,
+					"groupId": 3,
+					"rootKey": 65,
+					"keyFrom": 65,
+					"keyTo": 65,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 77.93051196016884
+				},
+				{
+					"sampleFileId": 1375367,
+					"groupId": 3,
+					"rootKey": 67,
+					"keyFrom": 66,
+					"keyTo": 67,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 77.93051196016884
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.10798
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_Sub_Bass.zmulti": {
+		"name": "LABS_Sub_Bass",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Sub_Bass",
+			"SVNRevNumber": "24616",
+			"patchGainL": 0.983301,
+			"patchGainR": 0.983301,
+			"micId": 1,
+			"articId": "Short",
+			"articIdxs": [
+				-1,
+				14814
+			],
+			"handOffset": 12,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Sub Bass/rr1",
+					"groupId": 3,
+					"gain": 1.000002,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.075,
+										"curve": 3.882352941192
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.7500004269999999,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 0.5,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 14814,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 49.70000076293945
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Sub Bass/rr1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * cubed (luti (vel))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.310811,
+								"points": [
+									{
+										"level": 0.689189,
+										"time": 0.501969
+									},
+									{
+										"level": 1,
+										"time": 0.498031
+									}
+								]
+							}
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.7500004269999999
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.1496062992125984
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.075
+						},
+						{
+							"source": "i_envrel",
+							"value": 0.5
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375362,
+					"groupId": 3,
+					"rootKey": 33,
+					"keyFrom": 32,
+					"keyTo": 33,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 110.6808988979949
+				},
+				{
+					"sampleFileId": 1375251,
+					"groupId": 3,
+					"rootKey": 35,
+					"keyFrom": 34,
+					"keyTo": 35,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 122.2151495862508
+				},
+				{
+					"sampleFileId": 1375285,
+					"groupId": 3,
+					"rootKey": 24,
+					"keyFrom": 24,
+					"keyTo": 24,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 108.6408110338324
+				},
+				{
+					"sampleFileId": 1375277,
+					"groupId": 3,
+					"rootKey": 36,
+					"keyFrom": 36,
+					"keyTo": 84,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 101.2360108442047
+				},
+				{
+					"sampleFileId": 1375378,
+					"groupId": 3,
+					"rootKey": 26,
+					"keyFrom": 25,
+					"keyTo": 26,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 111.9582489030132
+				},
+				{
+					"sampleFileId": 1375267,
+					"groupId": 3,
+					"rootKey": 28,
+					"keyFrom": 27,
+					"keyTo": 28,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 103.7323848543514
+				},
+				{
+					"sampleFileId": 1375297,
+					"groupId": 3,
+					"rootKey": 29,
+					"keyFrom": 29,
+					"keyTo": 29,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 105.5641082032109
+				},
+				{
+					"sampleFileId": 1375342,
+					"groupId": 3,
+					"rootKey": 31,
+					"keyFrom": 30,
+					"keyTo": 31,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 1.000002,
+					"tempo": 104.8712323280139
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.002825
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_Synth_Stab.zmulti": {
+		"name": "LABS_Synth_Stab",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Synth_Stab",
+			"SVNRevNumber": "24616",
+			"patchGainL": 0.983301,
+			"patchGainR": 0.983301,
+			"micId": 1,
+			"articId": "Short",
+			"articIdxs": [
+				-1,
+				14814
+			],
+			"handOffset": 12,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Synth Stab/rr1",
+					"groupId": 3,
+					"gain": 1.000002,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.075,
+										"curve": 3.882352941192
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 10,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 14814,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 49.70000076293945
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Synth Stab/rr1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * cubed (luti (vel))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.310811,
+								"points": [
+									{
+										"level": 0.851351,
+										"time": 0.702756
+									},
+									{
+										"level": 0.72973,
+										"time": 0.00196799999999997
+									},
+									{
+										"level": 1,
+										"time": 0.295276
+									}
+								]
+							}
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.75
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.5039370078740157
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.075
+						},
+						{
+							"source": "i_envrel",
+							"value": 10
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375332,
+					"groupId": 3,
+					"rootKey": 34,
+					"keyFrom": 30,
+					"keyTo": 34,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9976302515319
+				},
+				{
+					"sampleFileId": 1375296,
+					"groupId": 3,
+					"rootKey": 94,
+					"keyFrom": 90,
+					"keyTo": 94,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375327,
+					"groupId": 3,
+					"rootKey": 69,
+					"keyFrom": 65,
+					"keyTo": 69,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375259,
+					"groupId": 3,
+					"rootKey": 59,
+					"keyFrom": 55,
+					"keyTo": 59,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9976302515319
+				},
+				{
+					"sampleFileId": 1375349,
+					"groupId": 3,
+					"rootKey": 49,
+					"keyFrom": 45,
+					"keyTo": 49,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9976302515319
+				},
+				{
+					"sampleFileId": 1375273,
+					"groupId": 3,
+					"rootKey": 24,
+					"keyFrom": 24,
+					"keyTo": 24,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375244,
+					"groupId": 3,
+					"rootKey": 84,
+					"keyFrom": 80,
+					"keyTo": 84,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375375,
+					"groupId": 3,
+					"rootKey": 39,
+					"keyFrom": 35,
+					"keyTo": 39,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375346,
+					"groupId": 3,
+					"rootKey": 99,
+					"keyFrom": 95,
+					"keyTo": 99,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9976302515319
+				},
+				{
+					"sampleFileId": 1375317,
+					"groupId": 3,
+					"rootKey": 74,
+					"keyFrom": 70,
+					"keyTo": 74,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9976302515319
+				},
+				{
+					"sampleFileId": 1375247,
+					"groupId": 3,
+					"rootKey": 64,
+					"keyFrom": 60,
+					"keyTo": 64,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375283,
+					"groupId": 3,
+					"rootKey": 54,
+					"keyFrom": 50,
+					"keyTo": 54,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375365,
+					"groupId": 3,
+					"rootKey": 29,
+					"keyFrom": 25,
+					"keyTo": 29,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375338,
+					"groupId": 3,
+					"rootKey": 89,
+					"keyFrom": 85,
+					"keyTo": 89,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375308,
+					"groupId": 3,
+					"rootKey": 44,
+					"keyFrom": 40,
+					"keyTo": 44,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375280,
+					"groupId": 3,
+					"rootKey": 104,
+					"keyFrom": 100,
+					"keyTo": 108,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375263,
+					"groupId": 3,
+					"rootKey": 79,
+					"keyFrom": 75,
+					"keyTo": 79,
+					"velFrom": 90,
+					"velTo": 127,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375380,
+					"groupId": 3,
+					"rootKey": 34,
+					"keyFrom": 30,
+					"keyTo": 34,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9976302515319
+				},
+				{
+					"sampleFileId": 1375351,
+					"groupId": 3,
+					"rootKey": 94,
+					"keyFrom": 90,
+					"keyTo": 94,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375260,
+					"groupId": 3,
+					"rootKey": 69,
+					"keyFrom": 65,
+					"keyTo": 69,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375329,
+					"groupId": 3,
+					"rootKey": 59,
+					"keyFrom": 55,
+					"keyTo": 59,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9976302515319
+				},
+				{
+					"sampleFileId": 1375245,
+					"groupId": 3,
+					"rootKey": 49,
+					"keyFrom": 45,
+					"keyTo": 49,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9976302515319
+				},
+				{
+					"sampleFileId": 1375353,
+					"groupId": 3,
+					"rootKey": 24,
+					"keyFrom": 24,
+					"keyTo": 24,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375318,
+					"groupId": 3,
+					"rootKey": 84,
+					"keyFrom": 80,
+					"keyTo": 84,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375270,
+					"groupId": 3,
+					"rootKey": 39,
+					"keyFrom": 35,
+					"keyTo": 39,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375237,
+					"groupId": 3,
+					"rootKey": 99,
+					"keyFrom": 95,
+					"keyTo": 99,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9976302515319
+				},
+				{
+					"sampleFileId": 1375248,
+					"groupId": 3,
+					"rootKey": 74,
+					"keyFrom": 70,
+					"keyTo": 74,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9976302515319
+				},
+				{
+					"sampleFileId": 1375319,
+					"groupId": 3,
+					"rootKey": 64,
+					"keyFrom": 60,
+					"keyTo": 64,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375336,
+					"groupId": 3,
+					"rootKey": 54,
+					"keyFrom": 50,
+					"keyTo": 54,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375289,
+					"groupId": 3,
+					"rootKey": 29,
+					"keyFrom": 25,
+					"keyTo": 29,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375264,
+					"groupId": 3,
+					"rootKey": 89,
+					"keyFrom": 85,
+					"keyTo": 89,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375359,
+					"groupId": 3,
+					"rootKey": 44,
+					"keyFrom": 40,
+					"keyTo": 44,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375333,
+					"groupId": 3,
+					"rootKey": 104,
+					"keyFrom": 100,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				},
+				{
+					"sampleFileId": 1375340,
+					"groupId": 3,
+					"rootKey": 79,
+					"keyFrom": 75,
+					"keyTo": 79,
+					"velFrom": 1,
+					"velTo": 89,
+					"gain": 0.445449890898,
+					"tempo": 129.9990972284915
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.10798
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_Synth_Wave_1.zmulti": {
+		"name": "LABS_Synth_Wave_1",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Synth_Wave_1",
+			"SVNRevNumber": "24306",
+			"patchGainL": 0.983301,
+			"patchGainR": 0.983301,
+			"micId": 1,
+			"articId": "Long",
+			"articIdxs": [
+				-1,
+				19906
+			],
+			"handOffset": 12,
+			"useInstrReleaseVel": true,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Synth Wave 1/RR1",
+					"groupId": 3,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.35,
+										"curve": 1.355700000005423
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 2,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Synth Wave 1/RR1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.75
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.6850393700787402
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.35
+						},
+						{
+							"source": "i_envrel",
+							"value": 2
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375323,
+					"sampleOffset": 0.1,
+					"groupId": 3,
+					"rootKey": 56,
+					"keyFrom": 24,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 133.8010174452368
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.271244
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_Synth_Wave_2.zmulti": {
+		"name": "LABS_Synth_Wave_2",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Synth_Wave_2",
+			"SVNRevNumber": "24616",
+			"patchGainL": 0.333316,
+			"patchGainR": 0.333316,
+			"micId": 1,
+			"articId": "Long",
+			"articIdxs": [
+				-1,
+				19906
+			],
+			"handOffset": 12,
+			"useInstrReleaseVel": true,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Synth Wave 2/RR1",
+					"groupId": 3,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.35,
+										"curve": 1.355700000005423
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 2,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Synth Wave 2/RR1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.75
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.6850393700787402
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.35
+						},
+						{
+							"source": "i_envrel",
+							"value": 2
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375256,
+					"sampleOffset": 0.1,
+					"groupId": 3,
+					"rootKey": 51,
+					"keyFrom": 24,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 117.089829853841
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.271244
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_Synth_Wave_3.zmulti": {
+		"name": "LABS_Synth_Wave_3",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Synth_Wave_3",
+			"SVNRevNumber": "24616",
+			"patchGainL": 0.418661,
+			"patchGainR": 0.418661,
+			"micId": 1,
+			"articId": "Long",
+			"articIdxs": [
+				-1,
+				19906
+			],
+			"handOffset": 12,
+			"useInstrReleaseVel": true,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Synth Wave 3/RR1",
+					"groupId": 3,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.349999176,
+										"curve": 1.355700000005423
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.7500004269999999,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 5.346440918000001,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Synth Wave 3/RR1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.7500004269999999
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.6850393700787402
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.349999176
+						},
+						{
+							"source": "i_envrel",
+							"value": 5.346440918000001
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375339,
+					"groupId": 3,
+					"rootKey": 48,
+					"keyFrom": 24,
+					"keyTo": 48,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 134.1094295692666
+				},
+				{
+					"sampleFileId": 1375330,
+					"sampleOffset": 0.1,
+					"groupId": 3,
+					"rootKey": 60,
+					"keyFrom": 49,
+					"keyTo": 67,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 79.95780004997363
+				},
+				{
+					"sampleFileId": 1375320,
+					"groupId": 3,
+					"rootKey": 72,
+					"keyFrom": 68,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 105.6880733944954
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.271244
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_Tape_Loop_Wobble.zmulti": {
+		"name": "LABS_Tape_Loop_Wobble",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Tape_Loop_Wobble",
+			"SVNRevNumber": "24306",
+			"patchGainL": 0.418661,
+			"patchGainR": 0.418661,
+			"micId": 1,
+			"articId": "Long",
+			"articIdxs": [
+				-1,
+				19906
+			],
+			"handOffset": 12,
+			"useInstrReleaseVel": true,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Tape Loop Wobble/RR1",
+					"groupId": 3,
+					"pitchStretchQuality": 2,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.1,
+										"curve": -1.355700000005423
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 0.561231,
+										"time": 0.75,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 2,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"interp": 5,
+						"syncType": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"postFx": [
+							{
+								"type": "send",
+								"indexA": 1,
+								"gainA": 0.5
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Tape Loop Wobble/RR1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "send[2].gainA",
+							"expr": "x * luti (i_meta[32])",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_meta[32]",
+							"value": 0.5039370078740157
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 0.561231
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.75
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.5039370078740157
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.1
+						},
+						{
+							"source": "i_envrel",
+							"value": 2
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375299,
+					"groupId": 3,
+					"rootKey": 59,
+					"keyFrom": 56,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"simpleLoopStart": 0,
+					"simpleLoopSize": 3.886,
+					"tempo": 123.520329387545
+				},
+				{
+					"sampleFileId": 1375356,
+					"groupId": 3,
+					"rootKey": 53,
+					"keyFrom": 24,
+					"keyTo": 55,
+					"velFrom": 1,
+					"velTo": 127,
+					"simpleLoopStart": 0,
+					"simpleLoopSize": 7.201708333333333,
+					"tempo": 124.9703484705596
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.10798
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			},
+			{
+				"subgroupIdx": 1,
+				"postFx": [
+					{
+						"type": "dlyl",
+						"delay": 0.5,
+						"damp": 0.2,
+						"pan": 0.2,
+						"fb": 0.40000001,
+						"wet": 1,
+						"dry": 0,
+						"unit": -1
+					}
+				]
+			}
+		]
+	},
+	"LABS_Tape_Warps_Major.zmulti": {
+		"name": "LABS_Tape_Warps_Major",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Tape_Warps_Major",
+			"SVNRevNumber": "24601",
+			"patchGainL": 0.983301,
+			"patchGainR": 0.983301,
+			"micId": 1,
+			"articId": "Long",
+			"articIdxs": [
+				-1,
+				19906
+			],
+			"handOffset": 12,
+			"useInstrReleaseVel": true,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Tape Warps Major/RR1",
+					"groupId": 3,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": 1.355700000005423
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 2,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Tape Warps Major/RR1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						},
+						{
+							"target": "env[0].point[3].time",
+							"expr": "k_ep2drt ((1 - i_rel) * k_drt2ep (x))"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_rel",
+							"value": 0
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.75
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.5039370078740157
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.75
+						},
+						{
+							"source": "i_envrel",
+							"value": 2
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375304,
+					"groupId": 3,
+					"rootKey": 69,
+					"keyFrom": 69,
+					"keyTo": 70,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375284,
+					"groupId": 3,
+					"rootKey": 71,
+					"keyFrom": 71,
+					"keyTo": 71,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375368,
+					"groupId": 3,
+					"rootKey": 72,
+					"keyFrom": 60,
+					"keyTo": 61,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375347,
+					"groupId": 3,
+					"rootKey": 72,
+					"keyFrom": 72,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375293,
+					"groupId": 3,
+					"rootKey": 62,
+					"keyFrom": 62,
+					"keyTo": 63,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375377,
+					"groupId": 3,
+					"rootKey": 64,
+					"keyFrom": 64,
+					"keyTo": 64,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375302,
+					"groupId": 3,
+					"rootKey": 65,
+					"keyFrom": 65,
+					"keyTo": 66,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375387,
+					"groupId": 3,
+					"rootKey": 67,
+					"keyFrom": 67,
+					"keyTo": 68,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375304,
+					"groupId": 3,
+					"rootKey": 69,
+					"keyFrom": 57,
+					"keyTo": 58,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375284,
+					"groupId": 3,
+					"rootKey": 71,
+					"keyFrom": 59,
+					"keyTo": 59,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375368,
+					"groupId": 3,
+					"rootKey": 60,
+					"keyFrom": 24,
+					"keyTo": 49,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375293,
+					"groupId": 3,
+					"rootKey": 62,
+					"keyFrom": 50,
+					"keyTo": 51,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375377,
+					"groupId": 3,
+					"rootKey": 64,
+					"keyFrom": 52,
+					"keyTo": 52,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375302,
+					"groupId": 3,
+					"rootKey": 65,
+					"keyFrom": 53,
+					"keyTo": 54,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375387,
+					"groupId": 3,
+					"rootKey": 67,
+					"keyFrom": 55,
+					"keyTo": 56,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.10798
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_Tape_Warps_Minor.zmulti": {
+		"name": "LABS_Tape_Warps_Minor",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Tape_Warps_Minor",
+			"SVNRevNumber": "24601",
+			"patchGainL": 1.038406,
+			"patchGainR": 1.038406,
+			"micId": 1,
+			"articId": "Long",
+			"articIdxs": [
+				-1,
+				19906
+			],
+			"handOffset": 12,
+			"useInstrReleaseVel": true,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Tape Warps Minor/RR1",
+					"groupId": 3,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": 1.355700000005423
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 2,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Tape Warps Minor/RR1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						},
+						{
+							"target": "env[0].point[3].time",
+							"expr": "k_ep2drt ((1 - i_rel) * k_drt2ep (x))"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_rel",
+							"value": 0
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.75
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.5039370078740157
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.75
+						},
+						{
+							"source": "i_envrel",
+							"value": 2
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375376,
+					"groupId": 3,
+					"rootKey": 69,
+					"keyFrom": 69,
+					"keyTo": 70,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375301,
+					"groupId": 3,
+					"rootKey": 71,
+					"keyFrom": 71,
+					"keyTo": 71,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375386,
+					"groupId": 3,
+					"rootKey": 72,
+					"keyFrom": 60,
+					"keyTo": 61,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375366,
+					"groupId": 3,
+					"rootKey": 72,
+					"keyFrom": 72,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375311,
+					"groupId": 3,
+					"rootKey": 62,
+					"keyFrom": 62,
+					"keyTo": 63,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375240,
+					"groupId": 3,
+					"rootKey": 64,
+					"keyFrom": 64,
+					"keyTo": 64,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375322,
+					"groupId": 3,
+					"rootKey": 65,
+					"keyFrom": 65,
+					"keyTo": 66,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375257,
+					"groupId": 3,
+					"rootKey": 67,
+					"keyFrom": 67,
+					"keyTo": 68,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375376,
+					"groupId": 3,
+					"rootKey": 69,
+					"keyFrom": 57,
+					"keyTo": 58,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375301,
+					"groupId": 3,
+					"rootKey": 71,
+					"keyFrom": 59,
+					"keyTo": 59,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375386,
+					"groupId": 3,
+					"rootKey": 60,
+					"keyFrom": 24,
+					"keyTo": 49,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375311,
+					"groupId": 3,
+					"rootKey": 62,
+					"keyFrom": 50,
+					"keyTo": 51,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375240,
+					"groupId": 3,
+					"rootKey": 64,
+					"keyFrom": 52,
+					"keyTo": 52,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375322,
+					"groupId": 3,
+					"rootKey": 65,
+					"keyFrom": 53,
+					"keyTo": 54,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				},
+				{
+					"sampleFileId": 1375257,
+					"groupId": 3,
+					"rootKey": 67,
+					"keyFrom": 55,
+					"keyTo": 56,
+					"velFrom": 1,
+					"velTo": 127,
+					"autoScaleFade": true,
+					"sampleEnd": 10.63510204081633,
+					"fadeOutTime": 1.369614512471655,
+					"loopZone": {
+						"fadeInTime": 1.369614512471655,
+						"sampleOffset": 0.2030158730158729,
+						"priority": 40
+					},
+					"tempo": 79.96856866537718
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.10798
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_Vocal_Synth.zmulti": {
+		"name": "LABS_Vocal_Synth",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"product": "Opia",
+		"patch": {
+			"name": "LABS_Vocal_Synth",
+			"SVNRevNumber": "24306",
+			"patchGainL": 0.482985,
+			"patchGainR": 0.482985,
+			"micId": 1,
+			"articId": "Long",
+			"articIdxs": [
+				-1,
+				19906
+			],
+			"handOffset": 12,
+			"useInstrReleaseVel": true,
+			"dontForceDefaultParams": true,
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Synth/RR1",
+					"groupId": 3,
+					"zoneDefaults": {
+						"measureNum": 4,
+						"measureDenom": 4,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"points": [
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": 1.355700000005423
+									},
+									{
+										"level": 1,
+										"time": 0
+									},
+									{
+										"level": 1,
+										"time": 0.75,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0,
+										"time": 2,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"articIdx": 19906,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 43.60000228881836
+							},
+							{
+								"type": "stereo2",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Synth/RR1",
+					"init": [
+						{
+							"target": "env[0].point[0].time",
+							"expr": "max (i_envatt, 0.003)"
+						}
+					],
+					"realtime": [
+						{
+							"target": "env[0].point[2].time",
+							"expr": "max (i_envdec, 0.003)"
+						},
+						{
+							"target": "env[0].point[2].level",
+							"expr": "limit (0, 1, i_envsus)"
+						},
+						{
+							"target": "gain",
+							"expr": "limit (0, 32, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + lag2 (luti (i_dyn), 20) * 1e+06)",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": 1,
+								"startLevel": 0.027027,
+								"points": [
+									{
+										"level": 1,
+										"time": 1
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "max (i_envrel, 0.003)"
+						},
+						{
+							"target": "env[0].point[3].time",
+							"expr": "k_ep2drt ((1 - i_rel) * k_drt2ep (x))"
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1
+						},
+						{
+							"source": "i_rel",
+							"value": 0
+						},
+						{
+							"source": "i_exp",
+							"value": 1
+						},
+						{
+							"source": "i_envsus",
+							"value": 1
+						},
+						{
+							"source": "i_envdec",
+							"value": 0.75
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.5039370078740157
+						},
+						{
+							"source": "i_envatt",
+							"value": 0.75
+						},
+						{
+							"source": "i_envrel",
+							"value": 2
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 1375335,
+					"groupId": 3,
+					"rootKey": 46,
+					"keyFrom": 42,
+					"keyTo": 46,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 3.105354166666666,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.3338541666666666,
+						"priority": 40
+					},
+					"tempo": 129.9998307293871
+				},
+				{
+					"sampleFileId": 1375253,
+					"groupId": 3,
+					"rootKey": 81,
+					"keyFrom": 77,
+					"keyTo": 81,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 3.193583333333333,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.4220833333333331,
+						"priority": 40
+					},
+					"tempo": 129.9994639779046
+				},
+				{
+					"sampleFileId": 1375325,
+					"groupId": 3,
+					"rootKey": 71,
+					"keyFrom": 67,
+					"keyTo": 71,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 3.218791666666667,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.4472916666666666,
+						"priority": 40
+					},
+					"tempo": 129.9994639779046
+				},
+				{
+					"sampleFileId": 1375294,
+					"groupId": 3,
+					"rootKey": 61,
+					"keyFrom": 57,
+					"keyTo": 61,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 2.991916666666667,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.2204166666666665,
+						"priority": 40
+					},
+					"tempo": 129.9994639779046
+				},
+				{
+					"sampleFileId": 1375350,
+					"groupId": 3,
+					"rootKey": 36,
+					"keyFrom": 24,
+					"keyTo": 36,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 3.269208333333333,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.4977083333333332,
+						"priority": 40
+					},
+					"tempo": 129.9998307293871
+				},
+				{
+					"sampleFileId": 1375313,
+					"groupId": 3,
+					"rootKey": 96,
+					"keyFrom": 92,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 3.256604166666667,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.4851041666666667,
+						"priority": 40
+					},
+					"tempo": 129.9998307293871
+				},
+				{
+					"sampleFileId": 1375324,
+					"groupId": 3,
+					"rootKey": 51,
+					"keyFrom": 47,
+					"keyTo": 51,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 3.294416666666667,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.5229166666666665,
+						"priority": 40
+					},
+					"tempo": 129.9994639779046
+				},
+				{
+					"sampleFileId": 1375242,
+					"groupId": 3,
+					"rootKey": 86,
+					"keyFrom": 82,
+					"keyTo": 86,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 3.080145833333333,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.3086458333333333,
+						"priority": 40
+					},
+					"tempo": 129.9998307293871
+				},
+				{
+					"sampleFileId": 1375315,
+					"groupId": 3,
+					"rootKey": 76,
+					"keyFrom": 72,
+					"keyTo": 76,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 3.2061875,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.4346874999999999,
+						"priority": 40
+					},
+					"tempo": 129.9998307293871
+				},
+				{
+					"sampleFileId": 1375236,
+					"groupId": 3,
+					"rootKey": 66,
+					"keyFrom": 62,
+					"keyTo": 66,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 3.029729166666667,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.2582291666666665,
+						"priority": 40
+					},
+					"tempo": 129.9998307293871
+				},
+				{
+					"sampleFileId": 1375286,
+					"groupId": 3,
+					"rootKey": 41,
+					"keyFrom": 37,
+					"keyTo": 41,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 3.0549375,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.2834375,
+						"priority": 40
+					},
+					"tempo": 129.9994639779046
+				},
+				{
+					"sampleFileId": 1375312,
+					"groupId": 3,
+					"rootKey": 56,
+					"keyFrom": 52,
+					"keyTo": 56,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 3.193583333333333,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.4220833333333331,
+						"priority": 40
+					},
+					"tempo": 129.9998307293871
+				},
+				{
+					"sampleFileId": 1375337,
+					"groupId": 3,
+					"rootKey": 91,
+					"keyFrom": 87,
+					"keyTo": 91,
+					"velFrom": 1,
+					"velTo": 127,
+					"gain": 3.174803,
+					"autoScaleFade": true,
+					"sampleEnd": 3.168375,
+					"fadeOutTime": 1.241666666666667,
+					"loopZone": {
+						"fadeInTime": 1.241666666666667,
+						"sampleOffset": 0.3968749999999999,
+						"priority": 40
+					},
+					"tempo": 129.9994639779046
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 0,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 512,
+						"fftSize": 512,
+						"maxDuration": 5.26,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775,
+						"dry": 1,
+						"wet": 0.10798
+					}
+				],
+				"mods": [
+					{
+						"target": "conv[0].wet",
+						"expr": "db2lin( 3760.848 + (-3730.846 - 3760.848)/(1 + pow(( 0 + lag (i_reverb, 20) * 0.375 * 1.41472551), 0.01387129)))"
+					}
+				]
+			}
+		]
+	},
+	"LABS_AMBIENTGUITARS_AmbientGuitars.patches.zconfig": {
+		"plugin": "Labs",
+		"name": "LABS - Ambient Guitars AmbientGuitars",
+		"version": "0.1.1",
+		"minVersion": "1.6.36",
+		"maxVersion": "255.255.255",
+		"artics": [
+			{
+				"articId": "Trussart Pencildrop",
+				"display": "Trussart Pencildrop",
+				"category": "short",
+				"icon": "Trussart Pencildrop",
+				"infoText": ""
+			},
+			{
+				"articId": "Soft Infinite Reverb Tamed",
+				"display": "Soft Infinite Reverb Tamed",
+				"category": "short",
+				"icon": "Soft Infinite Reverb Tamed",
+				"infoText": ""
+			},
+			{
+				"articId": "Proxima Centauri",
+				"display": "Proxima Centauri",
+				"category": "short",
+				"icon": "Proxima Centauri",
+				"infoText": ""
+			},
+			{
+				"articId": "Rust Bow",
+				"display": "Rust Bow",
+				"category": "short",
+				"icon": "Rust Bow",
+				"infoText": ""
+			},
+			{
+				"articId": "Sag Aloo",
+				"display": "Sag Aloo",
+				"category": "short",
+				"icon": "Sag Aloo",
+				"infoText": ""
+			},
+			{
+				"articId": "Behind The Bridge Soft",
+				"display": "Behind The Bridge Soft",
+				"category": "short",
+				"icon": "Behind The Bridge Soft",
+				"infoText": ""
+			},
+			{
+				"articId": "Broken Prairie Organ",
+				"display": "Broken Prairie Organ",
+				"category": "short",
+				"icon": "Broken Prairie Organ",
+				"infoText": ""
+			},
+			{
+				"articId": "Lineman",
+				"display": "Lineman",
+				"category": "short",
+				"icon": "Lineman",
+				"infoText": ""
+			},
+			{
+				"articId": "Lonely Existence Of A Mars Rover",
+				"display": "Lonely Existence Of A Mars Rover",
+				"category": "short",
+				"icon": "Lonely Existence Of A Mars Rover",
+				"infoText": ""
+			},
+			{
+				"articId": "Over Clouds",
+				"display": "Over Clouds",
+				"category": "short",
+				"icon": "Over Clouds",
+				"infoText": ""
+			}
+		],
+		"controls": [
+			{
+				"controlId": "REVERB",
+				"sliderUrl": "/Typhon/DynamicArea/EvoMixerView/adsrBlock/%controlId%/dial",
+				"buttonUrl": "/Typhon/expressionDialPopOver/mainPopup/%controlId%",
+				"label": "REVERB",
+				"icon": "reverb",
+				"info": "Reverb",
+				"paramId": "i_reverb",
+				"scriptId": "i_reverb",
+				"odest": true,
+				"min": 0.0,
+				"max": 1.0,
+				"skew": 1.0,
+				"def": 0.2,
+				"init": 0.2,
+				"reset": true,
+				"enabled": true,
+				"evoADSR": true,
+				"units": "%"
+			},
+			{
+				"controlId": "ADSR-ATTACK",
+				"sliderUrl": "/Typhon/DynamicArea/EvoMixerView/adsrBlock/%controlId%/dial",
+				"buttonUrl": "/Typhon/expressionDialPopOver/mainPopup/%controlId%",
+				"label": "ATTACK",
+				"icon": "ADSR-attack",
+				"info": "Attack",
+				"paramId": "i_meta[18]",
+				"scriptId": "i_meta[18]",
+				"odest": true,
+				"min": 0.0,
+				"max": 1.0,
+				"skew": 1.0,
+				"def": 0.2,
+				"init": 0.2,
+				"reset": true,
+				"enabled": true,
+				"evoADSR": true,
+				"units": "%"
+			},
+			{
+				"controlId": "RELEASE",
+				"sliderUrl": "/Typhon/DynamicArea/EvoMixerView/adsrBlock/%controlId%/dial",
+				"buttonUrl": "/Typhon/expressionDialPopOver/mainPopup/%controlId%",
+				"label": "RELEASE",
+				"icon": "ADSR-release",
+				"info": "Release",
+				"paramId": "i_release",
+				"scriptId": "i_rel",
+				"odest": true,
+				"min": 0.0,
+				"max": 1.0,
+				"skew": 1.0,
+				"def": 0.6,
+				"init": 0.6,
+				"reset": true,
+				"enabled": true,
+				"evoADSR": true,
+				"units": "%"
+			},
+			{
+				"controlId": "DELAY",
+				"sliderUrl": "/Typhon/DynamicArea/EvoMixerView/adsrBlock/%controlId%/dial",
+				"buttonUrl": "/Typhon/expressionDialPopOver/mainPopup/%controlId%",
+				"label": "DELAY",
+				"icon": "delay",
+				"info": "Delay",
+				"paramId": "i_delay",
+				"scriptId": "i_meta[32]",
+				"odest": true,
+				"min": 0.0,
+				"max": 1.0,
+				"skew": 1.0,
+				"def": 0.0,
+				"init": 0.0,
+				"reset": true,
+				"enabled": true,
+				"evoADSR": true,
+				"units": "%"
+			}
+		],
+		"postScriptFlag": "True"
+	},
+	"LABS_AMBIENTGUITARS_Behind_The_Bridge_Soft.zmulti": {
+		"name": "Behind The Bridge Soft",
+		"count": 1,
+		"plugin": "Labs",
+		"version": "0.1.1",
+		"minVersion": "1.6.36",
+		"maxVersion": "255.255.255",
+		"product": "LABS - Ambient Guitars AmbientGuitars",
+		"patch": {
+			"name": "Behind The Bridge Soft",
+			"SVNRevNumber": "",
+			"previewNote": 60,
+			"patchGainL": 0.999993,
+			"patchGainR": 0.999993,
+			"micId": 1,
+			"family": "Ambient Guitars",
+			"articId": "Behind The Bridge Soft",
+			"articIdxs": [
+				-1,
+				14814
+			],
+			"instrDynamicsVelocityMode": 0,
+			"groups": [
+				{
+					"name": "/Long/rr1",
+					"groupId": 3,
+					"zoneDefaults": {
+						"perKeyPoly": 4,
+						"measureNum": 4.0,
+						"measureDenom": 4.0,
+						"anyEnvRecycle": true,
+						"envs": [
+							{
+								"directCurve": true,
+								"points": [
+									{
+										"level": 1.0,
+										"time": 10.0,
+										"curve": -1.17647058824
+									},
+									{
+										"level": 1.0,
+										"time": 0.0
+									},
+									{
+										"level": 1.0,
+										"time": 2.0,
+										"curve": -3.010111764717923
+									},
+									{
+										"level": 0.0,
+										"time": 10.0,
+										"curve": -3.010111764717923
+									}
+								]
+							}
+						],
+						"rr": 0,
+						"metaGroupId": 1,
+						"articIdx": 14814,
+						"triggerMask": 1,
+						"preFx": [
+							{
+								"type": "lpv2",
+								"freq": 223.8000030517578
+							},
+							{
+								"type": "stereo3",
+								"spread": 0.5,
+								"pan": 0.5,
+								"wet": 1.0
+							}
+						],
+						"postFx": [
+							{
+								"type": "send",
+								"indexA": 1,
+								"gainA": 1.0,
+								"indexB": 2,
+								"gainB": 1.0
+							}
+						],
+						"zoneModId": 3,
+						"rrcount": 1
+					}
+				}
+			],
+			"zoneMods": [
+				{
+					"zoneModId": 3,
+					"name": "/Long/rr1",
+					"init": [
+						{
+							"target": "gain",
+							"expr": "x * cubed ((1 - 0.466946) + vel * 0.466946)"
+						},
+						{
+							"target": "env[0].point[0].time",
+							"expr": "k_ep2atk (luti (i_meta[18]) * k_atk2ep (x))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": true,
+								"startLevel": 0.108108,
+								"points": [
+									{
+										"level": 1.0,
+										"time": 1.0
+									}
+								]
+							}
+						}
+					],
+					"realtime": [
+						{
+							"target": "gain",
+							"expr": "limit (0, 4, x * lag (i_exp, 40))"
+						},
+						{
+							"target": "lpv2[0].freq",
+							"expr": "k_ep2lpf (k_lpf2ep (x) + luti (i_dyn) * (1 * 1e+06))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": true,
+								"startLevel": 0.0,
+								"points": [
+									{
+										"level": 1.0,
+										"time": 1.0
+									}
+								]
+							}
+						},
+						{
+							"target": "send[2].gainA",
+							"expr": "limit (0, 4, x * luti (i_reverb))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": true,
+								"startLevel": 0.0,
+								"points": [
+									{
+										"level": 1.0,
+										"time": 1.0
+									}
+								]
+							}
+						},
+						{
+							"target": "send[2].gainB",
+							"expr": "limit (0, 4, x * luti (i_meta[32]))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": true,
+								"startLevel": 0.0,
+								"points": [
+									{
+										"level": 1.0,
+										"time": 1.0
+									}
+								]
+							}
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (p_mic, 50)"
+						},
+						{
+							"target": "gain",
+							"expr": "x * lag (i_vol, 50)"
+						},
+						{
+							"target": "pan",
+							"expr": "x + lag (i_pan - 0.5, 50)"
+						}
+					],
+					"release": [
+						{
+							"target": "env[0].point[3].time",
+							"expr": "k_ep2drt (luti (i_rel) * k_drt2ep (x))",
+							"lut": {
+								"lutlen": 128,
+								"fixedLength": true,
+								"startLevel": 0.0,
+								"points": [
+									{
+										"level": 1.0,
+										"time": 1.0
+									}
+								]
+							}
+						}
+					],
+					"defaults": [
+						{
+							"source": "i_dyn",
+							"value": 1.0
+						},
+						{
+							"source": "i_rel",
+							"value": 0.8031496062992126
+						},
+						{
+							"source": "i_meta[32]",
+							"value": 0.984251968503937
+						},
+						{
+							"source": "i_exp",
+							"value": 1.0
+						},
+						{
+							"source": "i_reverb",
+							"value": 0.84251968503937
+						},
+						{
+							"source": "i_meta[18]",
+							"value": 0.0
+						}
+					]
+				}
+			],
+			"zones": [
+				{
+					"sampleFileId": 5009979,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 79,
+					"keyFrom": 79,
+					"keyTo": 79,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009980,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 91,
+					"keyFrom": 91,
+					"keyTo": 91,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009972,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 76,
+					"keyFrom": 76,
+					"keyTo": 76,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009973,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 88,
+					"keyFrom": 88,
+					"keyTo": 88,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009974,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 78,
+					"keyFrom": 77,
+					"keyTo": 78,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009975,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 90,
+					"keyFrom": 90,
+					"keyTo": 90,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009976,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 89,
+					"keyFrom": 89,
+					"keyTo": 89,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009977,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 80,
+					"keyFrom": 80,
+					"keyTo": 80,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009978,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 92,
+					"keyFrom": 92,
+					"keyTo": 92,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009964,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 95,
+					"keyFrom": 94,
+					"keyTo": 95,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009965,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 73,
+					"keyFrom": 73,
+					"keyTo": 73,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009966,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 72,
+					"keyFrom": 72,
+					"keyTo": 72,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009967,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 84,
+					"keyFrom": 84,
+					"keyTo": 84,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009968,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 96,
+					"keyFrom": 96,
+					"keyTo": 108,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009969,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 75,
+					"keyFrom": 74,
+					"keyTo": 75,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009970,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 87,
+					"keyFrom": 87,
+					"keyTo": 87,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009971,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 86,
+					"keyFrom": 85,
+					"keyTo": 86,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009957,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 70,
+					"keyFrom": 70,
+					"keyTo": 70,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009958,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 82,
+					"keyFrom": 82,
+					"keyTo": 82,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009959,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 69,
+					"keyFrom": 36,
+					"keyTo": 69,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009960,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 81,
+					"keyFrom": 81,
+					"keyTo": 81,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009961,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 93,
+					"keyFrom": 93,
+					"keyTo": 93,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009962,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 71,
+					"keyFrom": 71,
+					"keyTo": 71,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				},
+				{
+					"sampleFileId": 5009963,
+					"sampleOffset": 0.1,
+					"sampleEnd": 6.482958333333333,
+					"groupId": 3,
+					"rootKey": 83,
+					"keyFrom": 83,
+					"keyTo": 83,
+					"velFrom": 1,
+					"velTo": 127,
+					"tempo": 296.1610890090043
+				}
+			]
+		},
+		"instrFx": [
+			{
+				"subgroupIdx": 1,
+				"postFx": [
+					{
+						"type": "conv",
+						"fftSizeMax": 4096,
+						"fftSize": 4096,
+						"maxDuration": 5.259999847412109,
+						"preloadSeconds": 10000000000.0,
+						"sampleFileId": 308286,
+						"irGain": 0.02999999932944775
+					}
+				]
+			},
+			{
+				"subgroupIdx": 2,
+				"postFx": [
+					{
+						"type": "dlyl",
+						"delay": 0.172104568,
+						"damp": 0.39257813,
+						"pan": 0.2,
+						"fb": 0.66992188,
+						"wet": 1.0,
+						"dry": 0.0,
+						"unit": -1.0
+					}
+				]
+			}
+		]
+	},
+	"LABS_Bass_Synth_Bend.zpreset": {
+		"family": "Opia",
+		"name": "Bass Synth Bend",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Bass_Synth_Bend",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Locusts.zpreset": {
+		"family": "Opia",
+		"name": "Locusts",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Locusts",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_OPIA.presets.zconfig": {
+		"plugin": "Labs",
+		"name": "Opia",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"families": [
+			{
+				"family": "Opia",
+				"display": "Opia",
+				"category": "Experimental",
+				"icon": "misc"
+			}
+		]
+	},
+	"LABS_Percussion_Kit.zpreset": {
+		"family": "Opia",
+		"name": "Percussion Kit",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Percussion_Kit",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Piano_Granular.zpreset": {
+		"family": "Opia",
+		"name": "Piano Granular",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Piano_Granular",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Piano_Pad.zpreset": {
+		"family": "Opia",
+		"name": "Piano Pad",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Piano_Pad",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Pluck_Synth.zpreset": {
+		"family": "Opia",
+		"name": "Pluck Synth",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Pluck_Synth",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Sub_Bass.zpreset": {
+		"family": "Opia",
+		"name": "Sub Bass",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Sub_Bass",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Synth_Stab.zpreset": {
+		"family": "Opia",
+		"name": "Synth Stab",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Synth_Stab",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Synth_Wave_1.zpreset": {
+		"family": "Opia",
+		"name": "Synth Wave 1",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Synth_Wave_1",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Synth_Wave_2.zpreset": {
+		"family": "Opia",
+		"name": "Synth Wave 2",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Synth_Wave_2",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Synth_Wave_3.zpreset": {
+		"family": "Opia",
+		"name": "Synth Wave 3",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Synth_Wave_3",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Tape_Loop_Wobble.zpreset": {
+		"family": "Opia",
+		"name": "Tape Loop Wobble",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Tape_Loop_Wobble",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Tape_Warps_Major.zpreset": {
+		"family": "Opia",
+		"name": "Tape Warps Major",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Tape_Warps_Major",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Tape_Warps_Minor.zpreset": {
+		"family": "Opia",
+		"name": "Tape Warps Minor",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Tape_Warps_Minor",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_Vocal_Synth.zpreset": {
+		"family": "Opia",
+		"name": "Vocal Synth",
+		"tags": [
+			"3010000:Experimental"
+		],
+		"plugin": "Labs",
+		"version": "1.0.4",
+		"minVersion": "1.3.6",
+		"maxVersion": "255.255.255",
+		"activeMics": [
+			1
+		],
+		"patches": [
+			{
+				"name": "LABS_Vocal_Synth",
+				"version": "1.0.4",
+				"active": true,
+				"keyswitch": 0
+			}
+		]
+	},
+	"LABS_AMBIENTGUITARS.presets.zconfig": {
+		"plugin": "Labs",
+		"name": "LABS - Ambient Guitars",
+		"version": "0.1.1",
+		"minVersion": "1.6.36",
+		"maxVersion": "255.255.255",
+		"families": [
+			{
+				"family": "Ambient Guitars",
+				"display": "Ambient\nGuitars",
+				"category": "Ambient Guitars",
+				"icon": "Electric Guitar"
+			}
+		]
+	},
+	"LABS_AMBIENTGUITARS_Behind_The_Bridge_Soft.zpreset": {
+		"name": "Behind The Bridge Soft",
+		"plugin": "Labs",
+		"version": "0.1.1",
+		"minVersion": "1.6.36",
+		"maxVersion": "255.255.255",
+		"patches": [
+			{
+				"name": "Behind The Bridge Soft",
+				"version": "0.1.1",
+				"active": true
+			}
+		],
+		"family": "Ambient Guitars",
+		"tags": [
+			"Ambient Guitars",
+			"Guitar",
+			"Electric Guitar",
+			"Pad"
+		],
+		"activeMics": [
+			1
+		],
+		"params": [
+			{
+				"id": "i_expression",
+				"value": 1.0
+			},
+			{
+				"id": "i_dynamics",
+				"value": 1.0
+			},
+			{
+				"id": "i_reverb",
+				"value": 0.25
+			},
+			{
+				"id": "i_meta[18]",
+				"value": 0.0
+			},
+			{
+				"id": "i_release",
+				"value": 0.75
+			},
+			{
+				"id": "i_delay",
+				"value": 0.0
+			},
+			{
+				"id": "m_mix",
+				"value": 0.0
+			}
+		]
+	}
+}
