@@ -82,16 +82,16 @@ def decrypt_file(path: str):
             key = derive_key(iden)
 
             raw_data = o.read(data_chunk['08'])
-            base_path = 'samples/%s_%06X' % (base_name, iden)
+            base_path = 'samples/%07d %s' % (iden, base_name)
 
             try:
                 sflc_data = bytearray(xor(raw_data, key))
-                print('%50s - %s' % (base_path, key.hex()))
                 sflc.process_sflc_stream(
                     wave.open(base_path + '.wav', 'wb'),
                     BytesIO(initial_bytes=sflc_data),
                 )
                 open(base_path + '.sflc', 'wb').write(sflc_data)
+                print('%50s - %s' % (base_path, key.hex()))
             except AssertionError:
                 pass
 

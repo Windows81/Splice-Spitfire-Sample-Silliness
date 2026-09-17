@@ -33,7 +33,8 @@ def correct_int(x: int) -> int:
     return x
 
 
-def sub_141B66100(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:  # sub_141B66100
+# sub_141B66100
+def _sub_141B66100(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:
     if a2 <= 4:
         return
     v3 = a3[0]
@@ -56,7 +57,8 @@ def sub_141B66100(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None
         v6 -= 1
 
 
-def sub_141B66060(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:  # sub_141B66060
+# sub_141B66060
+def _sub_141B66060(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:
     if a2 <= 4:
         return
     v3 = a1[2]
@@ -77,7 +79,8 @@ def sub_141B66060(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None
         v6 -= 1
 
 
-def sub_141B66200(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:  # sub_141B66200
+# sub_141B66200
+def _sub_141B66200(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:
     if a2 <= 4:
         return
     v2 = 4
@@ -89,7 +92,8 @@ def sub_141B66200(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None
         v3 -= 1
 
 
-def sub_141B66000(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:  # sub_141B66000
+# sub_141B66000
+def _sub_141B66000(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:
     if a2 <= 4:
         return
     v3 = a3[0]
@@ -106,7 +110,8 @@ def sub_141B66000(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None
         v6 -= 1
 
 
-def sub_141B661D0(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:  # sub_141B661D0
+# sub_141B661D0
+def _sub_141B661D0(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:
     if a2 <= 4:
         return
     v3 = 4
@@ -117,7 +122,8 @@ def sub_141B661D0(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None
         v4 -= 1
 
 
-def sub_141B65FB0(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:  # sub_141B65FB0
+# sub_141B65FB0
+def _sub_141B65FB0(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:
     if a2 <= 4:
         return
     v3 = a3[0]
@@ -130,7 +136,7 @@ def sub_141B65FB0(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None
         v5 -= 1
 
 
-def process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
+def _process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
     v5 = ablk_values[2]
     (head, v10, _, v35, v36, v40, v41) = split_into_ints(data_chunk, 0, 0x1C, 4)
     v6 = min(4, v5)
@@ -233,38 +239,42 @@ def process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
             v16 -= 1
 
     if v41 != 0:
-        sub_141B66100(result, v5, (v35, v36, v40, v41))
+        _sub_141B66100(result, v5, (v35, v36, v40, v41))
     elif v40 != 0:
-        sub_141B66060(result, v5, (v35, v36, v40, v41))
+        _sub_141B66060(result, v5, (v35, v36, v40, v41))
     elif v36 != 0:
         if v35 == 0x200 and v36 == -0x100:
-            sub_141B66200(result, v5, (v35, v36, v40, v41))
+            _sub_141B66200(result, v5, (v35, v36, v40, v41))
         else:
-            sub_141B66000(result, v5, (v35, v36, v40, v41))
+            _sub_141B66000(result, v5, (v35, v36, v40, v41))
     else:
         if v35 == 0x100:
-            sub_141B661D0(result, v5, (v35, v36, v40, v41))
+            _sub_141B661D0(result, v5, (v35, v36, v40, v41))
         else:
-            sub_141B65FB0(result, v5, (v35, v36, v40, v41))
+            _sub_141B65FB0(result, v5, (v35, v36, v40, v41))
 
     return result
 
 
-def read_int(o, s: int = 4, signed: bool = False) -> int:
+def _read_int(o, s: int = 4, signed: bool = False) -> int:
     return int.from_bytes(o.read(s), byteorder='little', signed=signed)
 
 
 def process_sflc_stream(w: wave.Wave_write, data: BufferedIOBase) -> bytes:
     assert data.read(0x04) == b'SFLC'
-    read_int(data, 2)  # ¿? probably always 0x00
-    read_int(data, 2)  # ¿? probably always 0x01
-    read_int(data, 2)  # ¿? probably always 0x18
+    _read_int(data, 2)  # ¿? probably always 0x00
+    _read_int(data, 2)  # ¿? probably always 0x01
+    _read_int(data, 2)  # ¿? probably always 0x18
 
-    num_channels = read_int(data, 2)
-    sample_rate = read_int(data, 4)
-    data_size = read_int(data, 4)
+    num_channels = _read_int(data, 2)
+    sample_rate = _read_int(data, 4)
+    data_size = _read_int(data, 4)
 
-    read_int(data, 4)  # ¿? probably always 0x0400
+    w.setnchannels(num_channels)
+    w.setsampwidth(4)
+    w.setframerate(sample_rate)
+
+    _read_int(data, 4)  # ¿? probably always 0x0400
 
     accum_channel_data = [list[float]() for _ in range(num_channels)]
     next_ablk_index = data.tell()
@@ -272,8 +282,8 @@ def process_sflc_stream(w: wave.Wave_write, data: BufferedIOBase) -> bytes:
 
         ablk_values = [
             int.from_bytes(head, byteorder='little'),
-            read_int(data, 4),
-            read_int(data, 4),
+            _read_int(data, 4),
+            _read_int(data, 4),
         ]
         ablk_size = ablk_values[1]
         next_ablk_index += ablk_size
@@ -287,16 +297,11 @@ def process_sflc_stream(w: wave.Wave_write, data: BufferedIOBase) -> bytes:
                 byteorder='little',
             )
             data_chunk += data.read(data_size - 0x18)
-            processed_ints = process_data(ablk_values, data_chunk)
+            processed_ints = _process_data(ablk_values, data_chunk)
             processed_ints = [
                 v * (1 << 8)
                 for v in processed_ints
             ]
-            processed_floats = [
-                v * (2**-23)
-                for v in processed_ints
-            ]
-
             accum_channel_data[channel_index].extend(processed_ints)
 
     combined = list(itertools.chain(*zip(*accum_channel_data)))
@@ -304,9 +309,6 @@ def process_sflc_stream(w: wave.Wave_write, data: BufferedIOBase) -> bytes:
         "<{}i".format(len(combined)),
         *combined,
     )
-    w.setnchannels(num_channels)
-    w.setsampwidth(4)
-    w.setframerate(sample_rate)
     w.setnframes(len(accum_channel_data[0]))
     w.writeframes(packed_data)
     return packed_data
