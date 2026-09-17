@@ -1,7 +1,7 @@
 from io import BufferedIOBase
 import itertools
-import math
 import struct
+import wave
 
 
 def split_into_ints(data: bytes, offset: int, bytes_to_read: int, int_size: int) -> list[int]:
@@ -174,7 +174,8 @@ def process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
                 v14 = a2[v13]
                 v13 += 1
                 v15 = 64
-            v14 = v14 >> v24 >> 1
+            v14 >>= v24
+            v14 >>= 1
             v15 += -1 - v24
             if v15 == 0:
                 v14 = a2[v13]
@@ -205,8 +206,8 @@ def process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
         while v16 != 0:
             if v15 == 0:
                 v14 = a2[v13]
-                v15 = 64
                 v13 += 1
+                v15 = 64
             v23 = 0
             while True:
                 while v14 == -1:
@@ -219,9 +220,10 @@ def process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
                 if v24 < v15:
                     break
                 v14 = a2[v13]
-                v15 = 64
                 v13 += 1
-            v14 = v14 >> v24 >> 1
+                v15 = 64
+            v14 >>= v24
+            v14 >>= 1
             v15 += -1 - v24
             v34 = -(v23 >> 1)
             if (v23 & 1) == 0:
@@ -252,7 +254,7 @@ def read_int(o, s: int = 4, signed: bool = False) -> int:
     return int.from_bytes(o.read(s), byteorder='little', signed=signed)
 
 
-def read_sflc_stream(data: BufferedIOBase) -> bytes:
+def process_sflc_stream(w: wave.Wave_write, data: BufferedIOBase) -> bytes:
     assert data.read(0x04) == b'SFLC'
     read_int(data, 2)  # ¿? probably always 0x00
     read_int(data, 2)  # ¿? probably always 0x01
@@ -286,24 +288,35 @@ def read_sflc_stream(data: BufferedIOBase) -> bytes:
             )
             data_chunk += data.read(data_size - 0x18)
             processed_ints = process_data(ablk_values, data_chunk)
+            processed_ints = [
+                v * (1 << 8)
+                for v in processed_ints
+            ]
             processed_floats = [
                 v * (2**-23)
                 for v in processed_ints
             ]
 
-            accum_channel_data[channel_index].extend(processed_floats)
+            accum_channel_data[channel_index].extend(processed_ints)
 
-    # combined = list(itertools.chain(*zip(*accum_channel_data)))
-    combined = accum_channel_data[1]
+    combined = list(itertools.chain(*zip(*accum_channel_data)))
     packed_data = struct.pack(
-        "<{}f".format(len(combined)),
+        "<{}i".format(len(combined)),
         *combined,
     )
+    w.setnchannels(num_channels)
+    w.setsampwidth(4)
+    w.setframerate(sample_rate)
+    w.setnframes(len(accum_channel_data[0]))
+    w.writeframes(packed_data)
     return packed_data
 
 
 if __name__ == '__main__':
     # p = r'C:\Users\USER\Projects\splice\samples\INSTRUMENT_Common_IR_04B43E'
     p = r'C:\Users\USER\Projects\splice\samples\LABSOPIA_01_14FC45'
-    result_data = read_sflc_stream(open(file=p + '.sflc', mode='rb'))
-    open(p + '.pcm', 'wb').write(result_data)
+    with (
+        wave.open(p + '.wav', 'wb') as w,
+        open(file=p + '.sflc', mode='rb') as s
+    ):
+        result_data = process_sflc_stream(w, s)
