@@ -1,7 +1,7 @@
 from collections import defaultdict
+from typing import Any
 import json
 import time
-from typing import Any
 
 import requests
 

@@ -1,32 +1,22 @@
+from enum import Enum
 import glob
 from io import BytesIO
 import os
-from pprint import pprint
-import hashlib
-from itertools import cycle, islice
 import wave
 
 import sflc
-
-
-def xor(data: bytes, key: bytes, offset: int = 0) -> bytes:
-    return bytes(a ^ b for a, b in zip(data, islice(cycle(key), offset % len(key), None)))
-
-
-def xor_calibrate(data: bytes, key: bytes, offset: int = 0):
-    return xor(xor(data, key), key, offset)
-
-
-def derive_key(iden: int) -> bytes:
-    iden_payload = int.to_bytes(iden, byteorder='little', length=4)
-    return hashlib.md5(hashlib.md5(iden_payload).hexdigest().encode() + b'Sp!tFiR3').digest()
 
 
 def read_int(o, s: int = 4, signed: bool = False) -> int:
     return int.from_bytes(o.read(s), byteorder='little', signed=signed)
 
 
-def decrypt_file(path: str):
+class TYPE(Enum):
+    sflc = 0x02
+    bfdc = 0x00
+
+
+def decrypt_and_dump_file(path: str) -> None:
     base_name = os.path.basename(path).rsplit('.', 1)[0]
     with open(path, 'rb') as o:
 
@@ -36,8 +26,6 @@ def decrypt_file(path: str):
         num_chunks = read_int(o)
         assert num_chunks <= 0x400000
 
-        min_meta_1_size = 0x7FFFFFFFFFFFFFFF
-        max_meta_2_size = 0x0000000000000000
         data_chunks: list[dict[str, int]] = [{} for _ in range(num_chunks)]
 
         for data_chunk in data_chunks:
@@ -77,29 +65,37 @@ def decrypt_file(path: str):
             })
 
         for data_chunk in data_chunks:
-            o.seek(data_chunk['10'])
             iden = data_chunk['00']
-            key = derive_key(iden)
-
-            raw_data = o.read(data_chunk['08'])
             base_path = 'samples/%07d %s' % (iden, base_name)
+            data_type = TYPE(data_chunk['06'])
 
-            try:
-                sflc_data = bytearray(xor(raw_data, key))
+            o.seek(data_chunk['10'])
+            raw_data = o.read(data_chunk['08'])
+
+            if data_type == TYPE.sflc:
+                sflc_path = '%s.sflc' % base_path
+                wav_path = '%s.wav' % base_path
+
+                if os.path.exists(wav_path):
+                    continue
+
+                sflc_data = sflc.decrypt_sflc(raw_data, iden)
+                open(sflc_path, 'wb').write(sflc_data)
                 sflc.process_sflc_stream(
-                    wave.open(base_path + '.wav', 'wb'),
+                    wave.open(wav_path, 'wb'),
                     BytesIO(initial_bytes=sflc_data),
                 )
-                open(base_path + '.sflc', 'wb').write(sflc_data)
-                print('%50s - %s' % (base_path, key.hex()))
-            except AssertionError:
-                pass
+                print('%50s' % base_path)
+
+            else:
+                save_path = '%s.%s' % (base_path, data_type.name)
+                open(save_path, 'wb').write(raw_data)
 
 
 if __name__ == '__main__':
     dump = {
         **{
-            os.path.basename(p): decrypt_file(p)
+            os.path.basename(p): decrypt_and_dump_file(p)
             for p in glob.glob(r'C:\Users\USER\Splice\INSTRUMENT\*\Samples\*.spitfire')
         },
     }

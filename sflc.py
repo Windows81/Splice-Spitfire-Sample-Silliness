@@ -1,7 +1,22 @@
+from itertools import cycle, islice
 from io import BufferedIOBase
 import itertools
 import struct
+import hashlib
 import wave
+
+
+def derive_sflc_key(iden: int) -> bytes:
+    iden_payload = int.to_bytes(iden, byteorder='little', length=4)
+    return hashlib.md5(hashlib.md5(iden_payload).hexdigest().encode() + b'Sp!tFiR3').digest()
+
+
+def xor(data: bytes, key: bytes, offset: int = 0) -> bytes:
+    return bytes(a ^ b for a, b in zip(data, islice(cycle(key), offset % len(key), None)))
+
+
+def xor_calibrate(data: bytes, key: bytes, offset: int = 0):
+    return xor(xor(data, key), key, offset)
 
 
 def split_into_ints(data: bytes, offset: int, bytes_to_read: int, int_size: int) -> list[int]:
@@ -26,13 +41,6 @@ def bitscan_not(x: int) -> int:
     return (~((x + 1) ^ x)).bit_length() - 2
 
 
-def correct_int(x: int) -> int:
-    x %= (1 << 32)
-    if x >= 1 << 31:
-        x -= 1 << 32
-    return x
-
-
 # sub_141B66100
 def _sub_141B66100(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:
     if a2 <= 4:
@@ -51,7 +59,6 @@ def _sub_141B66100(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> Non
         v4 += 1
         v14 = (v5 * v10) + (v7 * v11) + (v3 * v12) + (v8 * v9)
         v10 = v12
-        v14 = correct_int(v14)
         v9 = v11
         a1[v4+1] += v14 >> 8
         v6 -= 1
@@ -74,7 +81,6 @@ def _sub_141B66060(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> Non
         v11 = v7 * v3
         v3 = v9
         v14 = v11 + (v5 * v9) + (v8 * v10)
-        v14 = correct_int(v14)
         a1[v4 + 1] += v14 >> 8
         v6 -= 1
 
@@ -86,8 +92,7 @@ def _sub_141B66200(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> Non
     v2 = 4
     v3 = a2 - 4
     while v3 > 0:
-        v4 = a1[v2 - 1]
-        a1[v2] += 2 * v4 - a1[v2 - 2]
+        a1[v2] = a1[v2] + 2 * a1[v2 - 1] - a1[v2 - 2]
         v2 += 1
         v3 -= 1
 
@@ -104,7 +109,6 @@ def _sub_141B66000(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> Non
         v7 = a1[v5 - 2]
         v8 = a1[v5 - 1]
         v14 = (v3 * v8) + (v4 * v7)
-        v14 = correct_int(v14)
         a1[v5] += v14 >> 8
         v5 += 1
         v6 -= 1
@@ -117,7 +121,8 @@ def _sub_141B661D0(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> Non
     v3 = 4
     v4 = a2 - 4
     while v4 > 0:
-        a1[v3] += a1[v3 - 1]
+        v14 = a1[v3] + a1[v3 - 1]
+        a1[v3] = v14
         v3 += 1
         v4 -= 1
 
@@ -130,8 +135,8 @@ def _sub_141B65FB0(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> Non
     v4 = 4
     v5 = a2 - 4
     while v5 > 0:
-        v6 = a1[v4 - 1]
-        a1[v4] += (v3 * v6) >> 8
+        v14 = (v3 * a1[v4 - 1]) >> 8
+        a1[v4] = v14
         v4 += 1
         v5 -= 1
 
@@ -162,16 +167,18 @@ def _process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
     v22 = 4
     if v21 != 0:
         while v16 != 0:
+            # Skips to next value is v15 is exhausted.
             if v15 == 0:
                 v14 = a2[v13]
                 v13 += 1
                 v15 = 64
             v23 = 0
             while True:
+                # Skips value if all bits are 1.
                 while v14 == -1:
                     v14 = a2[v13]
-                    v23 += v15
                     v13 += 1
+                    v23 += v15
                     v15 = 64
                 v24 = bitscan_not(v14)
                 v23 += v24
@@ -180,9 +187,8 @@ def _process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
                 v14 = a2[v13]
                 v13 += 1
                 v15 = 64
-            v14 >>= v24
-            v14 >>= 1
-            v15 += -1 - v24
+            v14 >>= (v24 + 1)
+            v15 -= (v24 + 1)
             if v15 == 0:
                 v14 = a2[v13]
                 v13 += 1
@@ -218,8 +224,8 @@ def _process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
             while True:
                 while v14 == -1:
                     v14 = a2[v13]
-                    v23 += v15
                     v13 += 1
+                    v23 += v15
                     v15 = 64
                 v24 = bitscan_not(v14)
                 v23 += v24
@@ -228,9 +234,8 @@ def _process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
                 v14 = a2[v13]
                 v13 += 1
                 v15 = 64
-            v14 >>= v24
-            v14 >>= 1
-            v15 += -1 - v24
+            v14 >>= (v24 + 1)
+            v15 -= (v24 + 1)
             v34 = -(v23 >> 1)
             if (v23 & 1) == 0:
                 v34 = v23 >> 1
@@ -322,3 +327,8 @@ if __name__ == '__main__':
         open(file=p + '.sflc', mode='rb') as s
     ):
         result_data = process_sflc_stream(w, s)
+
+
+def decrypt_sflc(raw_data: bytes, iden: int) -> bytes:
+    sflc_key = derive_sflc_key(iden)
+    return xor(raw_data, sflc_key)
