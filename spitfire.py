@@ -85,7 +85,7 @@ def decrypt_and_dump_file(path: str) -> None:
                     wave.open(wav_path, 'wb'),
                     BytesIO(initial_bytes=sflc_data),
                 )
-                print('%50s' % base_path)
+                print(base_path)
 
             else:
                 save_path = '%s.%s' % (base_path, data_type.name)

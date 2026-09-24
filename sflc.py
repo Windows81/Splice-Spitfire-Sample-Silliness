@@ -21,6 +21,7 @@ def xor_calibrate(data: bytes, key: bytes, offset: int = 0):
 
 def split_into_ints(data: bytes, offset: int, bytes_to_read: int, int_size: int) -> list[int]:
     base_data = bytearray(data[offset: offset + bytes_to_read])
+
     if bytes_to_read % int_size > 0:
         fill_pattern = 0xBAADF00D.to_bytes(4, byteorder='little')
         trail = (fill_pattern * (int_size // 4))[bytes_to_read % int_size:]
@@ -37,6 +38,9 @@ def split_into_ints(data: bytes, offset: int, bytes_to_read: int, int_size: int)
 
 
 def bitscan_not(x: int) -> int:
+    '''
+    Returns the first index of a binary 0 (from the right).
+    '''
     x &= (1 << 64) - 1
     return (~((x + 1) ^ x)).bit_length() - 2
 
@@ -45,23 +49,16 @@ def bitscan_not(x: int) -> int:
 def _sub_141B66100(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:
     if a2 <= 4:
         return
-    v3 = a3[0]
-    v5 = a3[1]
-    v7 = a3[2]
-    v8 = a3[3]
-    v4 = 2
-    v6 = a2 - 4
+    (v3, v5, v7, v8) = a3
     v9 = a1[0]
     v10 = a1[2]
-    while v6 > 0:
-        v11 = a1[v4 - 1]
-        v12 = a1[v4 + 1]
-        v4 += 1
+    for v4 in range(4, a2):
+        v12 = a1[v4 - 1]
+        v11 = a1[v4 - 3]
         v14 = (v5 * v10) + (v7 * v11) + (v3 * v12) + (v8 * v9)
         v10 = v12
         v9 = v11
-        a1[v4+1] += v14 >> 8
-        v6 -= 1
+        a1[v4] += v14 >> 8
 
 
 # sub_141B66060
@@ -69,76 +66,50 @@ def _sub_141B66060(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> Non
     if a2 <= 4:
         return
     v3 = a1[2]
-    v4 = 2
-    v6 = a2 - 4
-    v5 = a3[0]
-    v7 = a3[1]
-    v8 = a3[2]
-    while v6 > 0:
-        v9 = a1[v4 + 1]
-        v10 = a1[v4 - 1]
-        v4 += 1
-        v11 = v7 * v3
+    (v5, v7, v8, _) = a3
+    for v4 in range(4, a2):
+        v9 = a1[v4 - 1]
+        v10 = a1[v4 - 3]
+        v14 = (v7 * v3) + (v5 * v9) + (v8 * v10)
         v3 = v9
-        v14 = v11 + (v5 * v9) + (v8 * v10)
-        a1[v4 + 1] += v14 >> 8
-        v6 -= 1
+        a1[v4] += v14 >> 8
 
 
 # sub_141B66200
 def _sub_141B66200(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:
     if a2 <= 4:
         return
-    v2 = 4
-    v3 = a2 - 4
-    while v3 > 0:
-        a1[v2] = a1[v2] + 2 * a1[v2 - 1] - a1[v2 - 2]
-        v2 += 1
-        v3 -= 1
+    for v2 in range(4, a2):
+        a1[v2] += (2 * a1[v2 - 1]) - (a1[v2 - 2])
 
 
 # sub_141B66000
 def _sub_141B66000(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:
     if a2 <= 4:
         return
-    v3 = a3[0]
-    v4 = a3[1]
-    v5 = 4
-    v6 = a2 - 4
-    while v6 > 0:
-        v7 = a1[v5 - 2]
-        v8 = a1[v5 - 1]
-        v14 = (v3 * v8) + (v4 * v7)
+    (v3, v4, _, _) = a3
+    for v5 in range(4, a2):
+        v14 = (v3 * a1[v5 - 1]) + (v4 * a1[v5 - 2])
         a1[v5] += v14 >> 8
-        v5 += 1
-        v6 -= 1
 
 
 # sub_141B661D0
 def _sub_141B661D0(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:
     if a2 <= 4:
         return
-    v3 = 4
-    v4 = a2 - 4
-    while v4 > 0:
-        v14 = a1[v3] + a1[v3 - 1]
+    for v3 in range(4, a2):
+        v14 = (a1[v3]) + (a1[v3 - 1])
         a1[v3] = v14
-        v3 += 1
-        v4 -= 1
 
 
 # sub_141B65FB0
 def _sub_141B65FB0(a1: list[int], a2: int, a3: tuple[int, int, int, int]) -> None:
     if a2 <= 4:
         return
-    v3 = a3[0]
-    v4 = 4
-    v5 = a2 - 4
-    while v5 > 0:
-        v14 = (v3 * a1[v4 - 1]) >> 8
-        a1[v4] = v14
-        v4 += 1
-        v5 -= 1
+    (v3, _, _, _) = a3
+    for v4 in range(4, a2):
+        v14 = (v3 * a1[v4 - 1])
+        a1[v4] = v14 >> 8
 
 
 def _process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
@@ -165,30 +136,28 @@ def _process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
     v16 = v5 - 4
     v21 = data_chunk[0x0B]
     v22 = 4
-    if v21 != 0:
-        while v16 != 0:
-            # Skips to next value is v15 is exhausted.
-            if v15 == 0:
+    while v16 != 0:
+        if v15 == 0:
+            v14 = a2[v13]
+            v13 += 1
+            v15 = 64
+        v23 = 0
+        while True:
+            while v14 == -1:
                 v14 = a2[v13]
                 v13 += 1
+                v23 += v15
                 v15 = 64
-            v23 = 0
-            while True:
-                # Skips value if all bits are 1.
-                while v14 == -1:
-                    v14 = a2[v13]
-                    v13 += 1
-                    v23 += v15
-                    v15 = 64
-                v24 = bitscan_not(v14)
-                v23 += v24
-                if v24 < v15:
-                    break
-                v14 = a2[v13]
-                v13 += 1
-                v15 = 64
-            v14 >>= (v24 + 1)
-            v15 -= (v24 + 1)
+            v24 = bitscan_not(v14)
+            v23 += v24
+            if v24 < v15:
+                break
+            v14 = a2[v13]
+            v13 += 1
+            v15 = 64
+        v14 >>= (v24 + 1)
+        v15 -= (v24 + 1)
+        if v21 != 0:
             if v15 == 0:
                 v14 = a2[v13]
                 v13 += 1
@@ -208,40 +177,12 @@ def _process_data(ablk_values: list[int], data_chunk: bytes) -> list[int]:
                 v14 >>= v21
                 v32 = v27 & ((1 << v21) - 1)
             v23 = v32 | (v23 << v21)
-            v34 = -(v23 >> 1)
-            if v23 & 1 == 0:
-                v34 = v23 >> 1
-            result[v22] = v34
-            v22 += 1
-            v16 -= 1
-    else:
-        while v16 != 0:
-            if v15 == 0:
-                v14 = a2[v13]
-                v13 += 1
-                v15 = 64
-            v23 = 0
-            while True:
-                while v14 == -1:
-                    v14 = a2[v13]
-                    v13 += 1
-                    v23 += v15
-                    v15 = 64
-                v24 = bitscan_not(v14)
-                v23 += v24
-                if v24 < v15:
-                    break
-                v14 = a2[v13]
-                v13 += 1
-                v15 = 64
-            v14 >>= (v24 + 1)
-            v15 -= (v24 + 1)
-            v34 = -(v23 >> 1)
-            if (v23 & 1) == 0:
-                v34 = v23 >> 1
-            result[v22] = v34
-            v22 += 1
-            v16 -= 1
+        v34 = -(v23 >> 1)
+        if v23 & 1 == 0:
+            v34 = v23 >> 1
+        result[v22] = v34
+        v22 += 1
+        v16 -= 1
 
     if v41 != 0:
         _sub_141B66100(result, v5, (v35, v36, v40, v41))
